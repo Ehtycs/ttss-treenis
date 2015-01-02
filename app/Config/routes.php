@@ -35,6 +35,8 @@
  * how to customize the loading of plugin routes.
  */
 	CakePlugin::routes();
+	
+	CakePlugin::load('Users', array('routes' => true));
 
 /**
  * Load the CakePHP default routes. Only remove this if you do not want to use

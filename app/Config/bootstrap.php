@@ -112,3 +112,12 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+CakePlugin::load('DebugKit');
+
+CakePlugin::load('Users');
+Configure::write('User.roles', array(
+   'admin' => 'Admin',
+   'board' => 'Member of board',
+   'user' => 'User'
+));

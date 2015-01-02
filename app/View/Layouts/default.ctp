@@ -59,5 +59,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		</div>
 	</div>
 	<?php echo $this->element('sql_dump'); ?>
+	<?php echo $this->Session->flash(); ?>
+   <?php echo $this->Session->flash('email'); ?>
 </body>
 </html>
