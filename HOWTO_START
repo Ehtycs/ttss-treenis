@@ -1,0 +1,7 @@
+
+Tippejä ja trikkejä miten kehitysympäristön saa alkuun
+------------------------------------------------------
+
+Luo kansio app/tmp ja anna www palvelinta pyörittävälle käyttäjälle oikeudet 
+siihen. ( esim. käyttäjä www-data)
+
