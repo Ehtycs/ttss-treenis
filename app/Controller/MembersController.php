@@ -8,7 +8,13 @@ class MembersController extends AppController {
     public function index() {
       $res = $this->Member->find('all', array('recursive' => 0));
 //       debug($res);
-      $members = array_column($res, 'Member');
+      // fix: array_column requires too new php version
+      //$members = array_column($res, 'Member');
+      $members = array();
+      foreach( $res as $key => $r) {
+         $members[$key] = $r['Member'];
+      }
+      
       $this->set('members', $members);
     }
     
