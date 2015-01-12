@@ -1,7 +1,11 @@
 
-Tippejä ja trikkejä miten kehitysympäristön saa alkuun
+Tippejä ja trikkejä miten kehitysympäristön saa alkuun (linux/Debian)
 ------------------------------------------------------
 
-Luo kansio app/tmp ja anna www palvelinta pyörittävälle käyttäjälle oikeudet 
-siihen. ( esim. käyttäjä www-data)
+apachesta mod_rewrite päälle
 
+Luo kansio app/tmp ja anna www palvelinta pyörittävälle käyttäjälle oikeudet 
+siihen. ( esim. käyttäjä www-data )
+
+Muokkaa /etc/apache2/sites-available/default riviltä missä määritellään /var/www (document root)
+Allow Override None-> Allow override All
