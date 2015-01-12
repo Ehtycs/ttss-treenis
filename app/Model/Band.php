@@ -3,12 +3,31 @@
 
 class Band extends AppModel {
 
+   public $actsAs = array('Containable');
+
    public $hasMany = array(
-      'BandMembership'
+      'BandMembership' => array(
+         'className' => 'BandMembership',
+      ),
+      'HasConstReservAccount' => array(
+         'className' => 'ConstReservAccount',
+         'foreignKey' => 'band_id',
+         'associationForeignKey' => false,
+      ),
+      'HasReservAccount' => array(
+         'className' => 'ReservAccount',
+      ),
+      'Reservations' => array(
+         'className' => 'Reservations',
+         'foreignKey' => 'band_id',
+      )
    );
    
-   public $actsAs = array('Containable');
-   
+//    public $hasOne = array(
+//       'ConstReservAccount',
+//       'ReservAccount',
+//    );
+      
    public $hasAndBelongsToMany = array(
       'Member' => array(
          'className' => 'Member',
@@ -19,6 +38,35 @@ class Band extends AppModel {
        ),
    );
    
+   public function getViewDataById($id = null) {
+   
+      if(!$id) {
+         throw new NotFoundException(__('Invalid band Id'));
+      }
+      
+      /* This is finally the correct way to contain-find shit! */
+      $bandData = $this->find('first', array(
+         'conditions' => array(
+            'Band.id' => $id,
+         ),
+         'contain' => array(
+            'HasConstReservAccount' => array(
+               'OwnsSlot',
+            ),
+            'HasReservAccount' => array(
+            
+            ),
+            'Member' => array(
+               
+            ),
+         ),
+         
+      ));      
+
+//       debug($bandData);
+      return $bandData;
+   
+   }
    
    /*public function beforeSave($options = array()){
       foreach (array_keys($this->hasAndBelongsToMany) as $model){

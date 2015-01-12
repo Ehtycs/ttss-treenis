@@ -4,7 +4,9 @@
 class Member extends AppModel {
    
    public $hasMany = array(
-      'BandMembership'
+      'BandMembership' => array(
+         'className' => 'BandMembership'
+      ),
    );
    
    public $actsAs = array('Containable');

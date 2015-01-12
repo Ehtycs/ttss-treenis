@@ -1,5 +1,5 @@
 
-<h3>Club members</h3>
+<h2>Club members</h2>
 <?php
    echo $this->element('MemberList', array('members' => $members));
 ?>

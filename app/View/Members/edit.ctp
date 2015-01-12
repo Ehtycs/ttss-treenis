@@ -1,4 +1,4 @@
-<h2>Add Member</h2>
+<h2>Edit Member <?php echo $memberName; ?></h2>
 <?php
 echo $this->Form->create('Member');
 echo $this->Form->input('first_name');
@@ -13,5 +13,6 @@ Has access to rehearsal room
 <?php echo $this->Form->checkbox('access'); ?>
 </p>
 <?php
+echo $this->Form->input('id', array('type' => 'hidden'));
 echo $this->Form->end('Save Member');
 ?>

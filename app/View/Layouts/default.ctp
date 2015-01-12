@@ -40,11 +40,16 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		<div id="header">
 			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
 		</div>
+		
 		<div id="content">
-
+         <div class="view">
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $this->fetch('content'); ?>
+			</div>
+			<div class="actions">
+			<?php echo $this->element('AdminMenu'); ?>
+			</div>
 		</div>
 		<div id="footer">
 			<?php echo $this->Html->link(

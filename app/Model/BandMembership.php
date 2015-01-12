@@ -49,12 +49,12 @@ class BandMembership extends AppModel {
                }
             }
             
-            debug($ret);
+            //debug($ret);
             
             return $ret;
          
          default:
-         return parent::find($find, $qData);
+         return parent::find($type, $qData);
       
       
       }

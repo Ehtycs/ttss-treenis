@@ -16,7 +16,7 @@ class BandMembershipsController extends AppController {
          $data = $this->request->data;
          $data['BandMembership']['Band'] = $bandId;
          if($this->BandMembership->save($data)) {
-            $this->Session->setFlash(__('Member added succesfully'));
+            $this->Session->setFlash(__('Member added succesfully'), 'flash_success');
             return $this->redirect(array('controller'=>'bands', 'action' => 'view', $bandId));
          }
          $this->Session->setFlash(__('Adding member failed'));
@@ -30,6 +30,24 @@ class BandMembershipsController extends AppController {
       $this->set('members', $members);
       $this->set('band', $this->Band->findById($bandId));
 
+   }
+   
+   public function remove($id = null) {
+      if(!$id) {
+         throw new NotFoundException(_('Invalid membership id!'));
+      }
+      
+      $bandId = $this->BandMembership->findById($id, array('recursive' => 0))['BandMembership']['band_id'];
+      
+      if($this->BandMembership->delete($id)) {
+         $this->Session->setFlash(__('Member connection deleted'), 'flash_success');
+      }
+      else {
+         $this->Session->setFlash(__('Deleting connection failed'));
+      }
+      
+      return $this->redirect(array('controller' => 'bands', 'action' => 'view', $bandId));
+   
    }
     
 }

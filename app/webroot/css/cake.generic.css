@@ -52,14 +52,14 @@ h1 {
 }
 h2 {
 	background:#fff;
-	color: #e32;
+   color: #2c6877;
 	font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
-	font-size: 190%;
+	font-size: 160%;
 }
 h3 {
 	color: #2c6877;
 	font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
-	font-size: 165%;
+	font-size: 130%;
 }
 h4 {
 	color: #993;
@@ -134,6 +134,9 @@ div.actions h3 {
 	color:#777;
 }
 
+div.separate-block {
+   margin-bottom: 50px;
+}
 
 /** Tables **/
 table {

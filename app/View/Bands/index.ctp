@@ -1,6 +1,6 @@
 
-<h3>Bands</h3>
+<h2>Bands</h2>
 <?php
-   echo $this->element('BandList', array('bands' => $bands));
+   echo $this->element('BandList', array( 'bands' => $bands));
 ?>
 </table>
