@@ -10,7 +10,15 @@ class BandsController extends AppController {
       // Get a list of bands. Dont associate members to bands 
       $res = $this->Band->find('all', array('recursive' => 0));
       // Get the column 'Bands' to be passed to BandList element
-      $bands = array_column($res, 'Band');
+      // requires php 5.5
+      //$bands = array_column($res, 'Band');
+      // Like this instead
+      $bands = array();
+      foreach( $res as $key => $r) {
+         $bands[$key] = $r['Band'];
+      }
+      
+      
       //debug($bands);
       $this->set('bands', $bands);
     }
