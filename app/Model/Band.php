@@ -1,11 +1,28 @@
 <?php
 
+/**
+ * Band model
+ * 
+ * Represents a band. Has many-to-many connection to Members through Join model
+ * BandMembership (table bands_members)
+ * Has one-to-many connection to Reservations, ConstReservAccounts and ReservAccounts
+ * 
+ * 
+ */
+ 
+ 
+ 
 
 class Band extends AppModel {
 
    public $actsAs = array('Containable');
-
+   
+   // Connections to other models (tables)
    public $hasMany = array(
+      // This is hasManyThrough connection... somehow I didn't manage
+      // to get this to work without hasAndBelongsToMany connection too.
+      // Actually when members get added, they are added through BandMembership
+      // model and BandMemberships controller.
       'BandMembership' => array(
          'className' => 'BandMembership',
       ),
@@ -23,11 +40,7 @@ class Band extends AppModel {
       )
    );
    
-//    public $hasOne = array(
-//       'ConstReservAccount',
-//       'ReservAccount',
-//    );
-      
+   // Member connection. Uses the table 'bands_members' as join table
    public $hasAndBelongsToMany = array(
       'Member' => array(
          'className' => 'Member',
@@ -63,24 +76,8 @@ class Band extends AppModel {
          
       ));      
 
-//       debug($bandData);
       return $bandData;
    
    }
-   
-   /*public function beforeSave($options = array()){
-      foreach (array_keys($this->hasAndBelongsToMany) as $model){
-         if(isset($this->data[$this->name][$model])){
-            $this->data[$model][$model] = $this->data[$this->name][$model];
-            unset($this->data[$this->name][$model]);
-         }
-      }
-      return true;
-   }*/
-
-   
-   //public $hasOne = '';
-   
-   
 
 }

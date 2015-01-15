@@ -1,16 +1,26 @@
 <?php
 
+/**
+ * ConstReservAccount model
+ * Represents an owned timeslot.
+ * Basically an informative connection model between bands and Slots
+ * Has fields is_paid, is_valid (for banning) and year.
+ *
+ */
 
 class ConstReservAccount extends AppModel {
    
    public $actsAs = array('Containable');
    
+   
    public $belongsTo = array(
+      // Owned by a band
       'OwnedBy' => array(
          'className' => 'Band',
          'foreignKey' => 'band_id',
          //'associationForeignKey' => 'band_id',
       ),
+      // connects to unigue slot
       'OwnsSlot' => array(
          'className' => 'Slot',
          'foreignKey' => 'slot_id',

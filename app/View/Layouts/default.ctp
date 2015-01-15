@@ -49,6 +49,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			</div>
 			<div class="actions">
 			<?php echo $this->element('AdminMenu'); ?>
+			<?php echo $this->element('UserMenu'); ?>
 			</div>
 		</div>
 		<div id="footer">

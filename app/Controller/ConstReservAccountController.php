@@ -18,7 +18,7 @@ class ConstReservAccountController extends AppController {
          $data['ConstReservAccount']['band_id'] = $bandId;
          
          if($this->ConstReservAccount->save($data)) {
-            $this->Session->setFlash(__('Timeslot has been saved', 'flash_success'));
+            $this->Session->setFlash(__('Timeslot has been saved'), 'flash_success');
             return $this->redirect(array('controller' => 'bands', 'action' => 'view', $bandId));
          }
          $this->Session->setFlash(__('Saving timeslot failed', 'flash_fail'));
@@ -28,6 +28,25 @@ class ConstReservAccountController extends AppController {
       $band = $this->Band->findById($bandId);
       $this->set('slots', $slots);
       $this->set('bandName', $band['Band']['name']);
+   }
+   
+   public function remove($id) {
+
+      if(!$id || !$this->ConstReservAccount->exists($id)) {
+         throw new NotFoundException(__('Invalid id'));
+      }
+      
+      $bandId = $this->ConstReservAccount->findById($id)['ConstReservAccount']['band_id'];
+      
+      if($this->ConstReservAccount->delete($id)) {
+         $this->Session->setFlash(__('Deleting timeslot succesful'), 'flash_success');
+      }
+      else {
+         $this->Session->setFlash(__('Deletion of timeslot failed'), 'flash_fail');
+      }
+      
+      $this->redirect(array('controller' => 'bands', 'action' => 'view', $bandId));
+
    }
 }
     

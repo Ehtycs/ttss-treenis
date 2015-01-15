@@ -18,7 +18,6 @@ class BandsController extends AppController {
          $bands[$key] = $r['Band'];
       }
       
-      
       //debug($bands);
       $this->set('bands', $bands);
     }

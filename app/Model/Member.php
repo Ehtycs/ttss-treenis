@@ -1,6 +1,10 @@
 <?php
 
-
+/**
+ * Member model.
+ * Links to bands, holds contact information of a user
+ * and info about membership fee.
+ */
 class Member extends AppModel {
    
    public $hasMany = array(

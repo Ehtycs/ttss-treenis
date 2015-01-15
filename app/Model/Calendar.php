@@ -6,11 +6,10 @@ class Calendar extends AppModel {
 	
 	public function test() {
 		
-		$Slot = ClassRegistry::init('model','Slot');
 		
-		$testi = $Slot->findById(4);
+		//$testi = $Slot->findById(4);
 		
-		debug($testi);
+// 		debug($testi);
 		
 	}
 	

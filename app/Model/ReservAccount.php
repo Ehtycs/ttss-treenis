@@ -14,7 +14,7 @@ class ReservAccount extends AppModel {
    );
    
    public $hasMany = array(
-//       'Reservation',
+       //'Reservation',
    );
 
 }

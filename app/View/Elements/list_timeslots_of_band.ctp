@@ -15,7 +15,7 @@ echo $actions ? "<th>Actions</th>" : "";
 <?php
 echo $ra['id'];
 ?></td><td><?php
-echo $ra['OwnsSlot'] ? $ra['OwnsSlot']['text'] : "Booking account"; 
+echo isset($ra['OwnsSlot']) ? $ra['OwnsSlot']['text'] : "Booking account"; 
 ?></td><td><?php
 echo $ra['year'];
 ?></td><td><?php 
@@ -27,7 +27,7 @@ echo $actions ? "<td>".
 $this->Form->postLink(
    'Remove', 
    array(
-      'controller' => $ra['OwnsSlot'] ? 'ConstReservAccounts' : 'ReservAccounts',
+      'controller' => isset($ra['OwnsSlot']) ? 'ConstReservAccount' : 'ReservAccount',
       'action' => 'remove',
       $ra['id']
    ), array(),

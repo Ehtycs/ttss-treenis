@@ -7,6 +7,9 @@ class BandMembershipsController extends AppController {
     public $components = array('Session');
     public $uses = array('Band','Member', 'BandMembership');
     
+    /**
+     *   Add member to band (both must exist) 
+     */
     public function add($bandId = null) {
       if(!$bandId || !$this->Band->exists($bandId)) {
          throw new NotFoundException(__('Invalid band id'));
@@ -23,15 +26,14 @@ class BandMembershipsController extends AppController {
       
       }
       $members = $this->BandMembership->find('available_users_list', array('band' => $bandId));
-//       $memberships = $this->BandMembership->find('all', array('conditions' => array('Band.id' => $bandId)));
-//       debug($memberships);
-//       $members = $this->Member->find('all');
-//       debug($members);
       $this->set('members', $members);
       $this->set('band', $this->Band->findById($bandId));
 
    }
    
+   /**
+    * Remove connection
+    */
    public function remove($id = null) {
       if(!$id) {
          throw new NotFoundException(_('Invalid membership id!'));
@@ -45,11 +47,8 @@ class BandMembershipsController extends AppController {
       else {
          $this->Session->setFlash(__('Deleting connection failed'));
       }
-      
       return $this->redirect(array('controller' => 'bands', 'action' => 'view', $bandId));
-   
    }
-    
 }
 
 ?>
