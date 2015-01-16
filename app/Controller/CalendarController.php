@@ -9,8 +9,8 @@ class CalendarController extends AppController {
 	
 	public function index() {
 		
-		$this->Calendar->test();
-		
+		$this->set('cal', $this->Calendar->getCalendar());
+// 		debug($this->Calendar->getCalendar());
 	}
 	
 }

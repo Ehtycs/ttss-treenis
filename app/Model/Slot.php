@@ -10,16 +10,19 @@
 
 class Slot extends AppModel {
 
-   public $actsAs = array('Containable');
+   	public $actsAs = array('Containable');
    
-   public $hasOne = array(
-      // Connection tracks If this is an owned timeslot of some band
-      'OwnedByConstReservAccount' => array(
-         'className' => 'ConstReservAccount',
-         'foreignKey' => false,
-         'associationForeignKey' => 'slot_id',
-      ),
-   );
+   	public $hasOne = array(
+   		// Connection tracks If this is an owned timeslot of some band
+      	'OwnedByConstReservAccount' => array(
+        	'className' => 'ConstReservAccount',
+         	'foreignKey' => 'slot_id',
+         	'associationForeignKey' => false,
+      	),
+   			
+   	);
+   	
+   // Slot has not to be in relation to Reservations
    
    // Used to map weekdaynumber to text...
    private $wdays = array('Mon', 'Tue','Wed',
@@ -47,9 +50,12 @@ class Slot extends AppModel {
             }
             
             return $ret;
+            
+         // Return slots in week calendar form, ie. indexed by week day and number inside the day
+         case 'week_calendar':
+         	return $this->_toWeekCalendarForm(parent::find('all', $qData));
          
          default:
-
             return parent::find($type, $qData);
 
       }
@@ -149,7 +155,6 @@ class Slot extends AppModel {
    
    // to 2D array indexed by weekday
    private function _toWeekCalendarForm($result) {
-   
       $ret = array();
       foreach($result as $r) {
          if(!isset($ret[$r['Slot']['day']])) {
@@ -159,7 +164,6 @@ class Slot extends AppModel {
       }
       //debug($result);
       return $ret;
-   
    }
    
 

@@ -43,5 +43,20 @@ class ConstReservAccount extends AppModel {
       
       return true;
    }
+   
+   // return owned timeslots indexed by slot id.
+   // Used by Calendar model
+   	public function findAllReturnBySlotId($qData) {
+   	
+   		$ownedslots = $this->find('all', $qData);
+   		$res = array();
+   		
+   		
+   		foreach($ownedslots as $o) {
+    		$res[$o['OwnsSlot']['id']] = $o;
+   		}
+
+   		return $res;
+   	}
 
 }
