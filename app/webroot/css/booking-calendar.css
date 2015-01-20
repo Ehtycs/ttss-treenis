@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+
+#booking-calendar td.hour {
+	
+	height: 10px;
+	font-size: 8px;
+	
+}

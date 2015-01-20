@@ -9,8 +9,11 @@ class CalendarController extends AppController {
 	
 	public function index() {
 		
-		$this->set('cal', $this->Calendar->getCalendar());
-// 		debug($this->Calendar->getCalendar());
+		$this->set('cal', $this->Calendar->getCalendarInTableForm());
+		
+		$this->set('ajaxForm', $this->Calendar->calendar);
+		
+//  		debug($this->Calendar->getCalendarInTableForm());
 	}
 	
 }

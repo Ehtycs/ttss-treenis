@@ -64,17 +64,22 @@ class Slot extends AppModel {
     }
     
    /**
-    * Attach textual representation of a slot to normal return array of
+    * Attach textual representation and duration of slot (as hours) of a slot to normal return array of
     * find function
     */
    public function afterFind($results, $primary = false) {
    
-      // attach Textual representation of a slot
+      // attach Textual representation of a slot and the duration
       foreach($results as $key => $val) {
          $keys = array_keys($val);
          // oh my god... jesus ...
          $results[$key][$keys[0]]['text'] = $this->wdays[$val[$keys[0]]['day']]
                                              .' '.$val[$keys[0]]['start'];
+         $beg = $results[$key][$keys[0]]['start'];
+         $end = $results[$key][$keys[0]]['end'];
+         
+         $diff = (new DateTime($beg))->diff(new DateTime($end));
+         $results[$key][$keys[0]]['hours'] = $diff->h+1;
       }
       return $results;
    }

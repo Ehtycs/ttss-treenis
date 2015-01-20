@@ -9,26 +9,28 @@
  * 
  * out: 
  * 	array(
- * 		"Days" => array(
- * 			// date1 ...
- * 			"date1" => array(
- * 				"time1" = array(
- *	 				"Reservation" => null / reservation data ,
- * 					"Slot" => slot data,
- * 					"OwnedTimeslot => null / owned timeslot data,
- * 				),
- * 				...
- * 				"timex" => array (
+ * 		"Weeks" => array(
+ * 			weekno => array(
+ * 				// date1 ...
+ * 				"date1" => array(
+ * 					"time1" = array(
+ *	 					"Reservation" => null / reservation data ,
+ * 						"Slot" => slot data,
+ * 						"OwnedTimeslot => null / owned timeslot data,
+ * 					),
  * 					...
+ * 					"timex" => array (
+ * 						...
+ * 					)
  * 				)
- * 			)
- * 			
- * 			...
- * 			//date2
- * 			"date2" => array(
- * 				array(),
+ * 				
  * 				...
- * 				array(),	
+ * 				//date2
+ * 				"date2" => array(
+ * 					array(),
+ * 					...
+ * 					array(),	
+ * 				)
  * 			)
  * 		)
  * 	)
@@ -46,6 +48,53 @@ class Calendar extends AppModel {
 	private $reservations = null;
 	private $ownedslots = null;
 	private $slots = null;
+	
+	/**
+	 * 	Rewamp the calendar array so that it can quickly be put together as a table (in a view)
+	 *  (row by row)
+	 * 	in array[week][clock] = array(contain all slots BY DAY that START at clock 'clock' or null (none))
+	 *  -> in view, loop weeks, loop clocks, loop days -> as rows to table, 
+	 *     set rowspan according to slot duration
+	 */
+	public function getCalendarInTableForm() {
+		
+		// Stores into $this->calendar
+		$this->getCalendar();
+		
+		// week
+		$week = array();
+		// take a "transpose" $arr[week][clock][day]
+		// also put clock as 00:00:00 -> 0, 01:00:00 -> 1, etc.
+		foreach($this->calendar as $weekno => $w) {
+			if(!isset($week[$weekno])) {
+				// create 24 hours
+				$week[$weekno] = array_fill(0, 24, array());
+			}
+			
+			foreach($w as $date => $day) {
+				foreach($day as $clock => $s) {	
+					// take the hour of the clock, cast to int
+					$ind = (int)explode(':', $clock)[0];
+					// put the slot to it's correct place
+					if(!isset($week[$weekno][$ind])) {
+						$week[$weekno][$ind] = array();
+					}
+					$week[$weekno][$ind][$date] = $s;
+				}
+			}
+		}
+// 		debug($week);
+		return $week;
+		
+	}
+	
+	/**
+	 * Returns an array of rehearsing calendar as described at top of this file.
+	 * this format is basically designed to be exploited in ajaxrequests. 
+	 * @param string $date1	starting date 
+	 * @param string $date2 end date
+	 * @return multitype:	array of all shit thats going down between the two dates (if null, two weeks from present is assumed)
+	 */
 	
 	public function getCalendar($date1 = null, $date2 = null) {
 		
@@ -89,7 +138,7 @@ class Calendar extends AppModel {
 		));
 		
 		$diff = $date1->diff($date2);
-		debug($diff);
+		//debug($diff);
 // 		debug($date2->format('Y-m-d'));
 		//debug($this->ownedslots);
 // 		debug($diff->d);
@@ -98,9 +147,16 @@ class Calendar extends AppModel {
 		// create days
 		// FIXME: Why the +2 is needed. its 3:30 am. I cant think anymore
 		for($i = 0; $i < $diff->d + 2; $i++) {
-			$this->calendar[$date->format('Y-m-d')] = $this->_createDay($date);
+			// create empty array for week
+			if(!isset($this->calendar[$date->format('W')])) {
+				$this->calendar[$date->format('W')] = array();
+			}
+			// index by week number, and date
+			$this->calendar[$date->format('W')][$date->format('Y-m-d')] = $this->_createDay($date);
 			$date->modify("+1 days");
 		}
+		
+// 		debug($this->calendar);
 		
 		return $this->calendar;
 		
