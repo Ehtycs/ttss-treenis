@@ -1,8 +1,36 @@
 @CHARSET "UTF-8";
 
+#booking-calendar {
+	
+	max-width: 800px;
+	
+}
+
+#booking-calendar td {
+	width: 50px;
+    word-wrap: break-word;
+}
+
 #booking-calendar td.hour {
 	
 	height: 10px;
 	font-size: 8px;
+	width: 50px;
+}
+
+
+#booking-calendar td.booked {
+/* 	background-color: rgba(255, 150,150,1); */
+	background-color: #c43c35;
+}
+
+#booking-calendar td.owned {
+/* 	background-color: rgba(150, 150,150,1); */
+	background-color: #ffcc00;
+}
+
+#booking-calendar td.free {
+/* 	background-color: rgba(150, 250,150,1);*/
+	background-color: #3B8230;
 	
 }

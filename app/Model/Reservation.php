@@ -31,7 +31,7 @@ class Reservation extends AppModel {
    				$res[$r['Reservation']['date']] = array();
    			}
 			
-   			$res[$r['Reservation']['date']][$r['Reservation']['id']] = $r;
+   			$res[$r['Reservation']['date']][$r['Reservation']['slot_id']] = $r;
    		}
    		return $res;
    	}
