@@ -36,7 +36,7 @@ class BandsController extends AppController {
 
     	// combine all reservation accounts to single array
     	$racc = array_merge($bandData['HasReservAccount'],$bandData['HasConstReservAccount']);
-//     	debug($racc);
+//     	debug($bandData);
     	
     	$this->set('reservationAccountData', $racc);
     	$this->set('bandData',$bandData);
@@ -48,7 +48,8 @@ class BandsController extends AppController {
     		$this->Band->create();
     		if($this->Band->save($this->request->data)) {
     			$this->Session->setFlash(__('Band has been saved'));
-    			return $this->redirect(array('action' => 'index'));
+    			// Make the redirect go to just added bands view page
+    			return $this->redirect(array('controller' => 'bands', 'action' => 'view', $this->Band->getLastInsertId()));
     		}
     		$this->Session->setFlash(__('Saving the band failed'));
     	}

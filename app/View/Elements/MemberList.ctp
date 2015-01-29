@@ -9,9 +9,10 @@
         <th>Id</th>
         <th>Name</th>
         <th>Email</th>
-        <th>TTYY</th>
+        <th>TTYY cur. y.</th>
+        <th>Member fee cur. y.</th>
         <th>Access</th>
-        <th>Actions</th>
+        <!-- <th>Actions</th>-->
     </tr>
     
     <?php foreach($members as $m): ?>
@@ -24,7 +25,18 @@
             );
          ?></td>
          <td><?php echo $m['email']; ?></td>
-         <td><?php if($m['ttyy']) {echo "X";} ?></td>
+         <td><?php 
+         
+         //if($m['ttyy']) {echo "X";} 
+         if(isset($m['MembershipFee'][0]) && $m['MembershipFee'][0]['ttyy']) {
+         	echo "X";
+         }
+         ?></td>
+         <td><?php 
+         if(isset($m['MembershipFee'][0])) {
+         	echo "X";
+         }
+         ?></td>
          <td><?php if($m['access']) {echo "X";} ?></td>
          <td><?php 
          

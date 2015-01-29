@@ -14,6 +14,6 @@ Is valid (works, this can be used to ban someone)
 <?php echo $this->Form->checkbox('is_valid'); ?>
 </p>
 <?php
-echo $this->Form->input('year');
+echo $this->Form->input('year', array('default' => date('Y')));
 echo $this->Form->end('Save');
 ?>

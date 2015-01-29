@@ -31,6 +31,7 @@ class BandMembershipsController extends AppController {
 
    }
    
+   
    /**
     * Remove connection
     */

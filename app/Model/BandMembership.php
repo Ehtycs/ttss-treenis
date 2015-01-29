@@ -74,7 +74,7 @@ class BandMembership extends AppModel {
     * this is criminal i think...
     */
    public function save($qData = NULL, $validate = true, $fieldList = array()) {
-        debug($qData);
+        //debug($qData);
         $qData['BandMembership']['member_id'] = $qData['BandMembership']['Member'];
         $qData['BandMembership']['band_id'] = $qData['BandMembership']['Band'];
         unset($qData['BandMembership']['Member']);

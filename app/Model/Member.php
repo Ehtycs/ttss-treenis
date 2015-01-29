@@ -11,6 +11,9 @@ class Member extends AppModel {
       'BandMembership' => array(
          'className' => 'BandMembership'
       ),
+      'MembershipFee' => array(
+      	'className' => 'MembershipFee',
+      ),
    );
    
    public $actsAs = array('Containable');

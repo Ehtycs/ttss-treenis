@@ -70,8 +70,14 @@ class Band extends AppModel {
             
             ),
             'Member' => array(
-               
+            	'MembershipFee' => array(
+            		// get only current years fee
+            		'conditions' => array(
+            			'MembershipFee.year' => date('Y'),
+            		)
+            	)
             ),
+         	
          ),
          
       ));      
