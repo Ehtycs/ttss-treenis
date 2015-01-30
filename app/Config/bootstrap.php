@@ -115,9 +115,9 @@ CakeLog::config('error', array(
 
 CakePlugin::load('DebugKit');
 
-CakePlugin::load('Users');
-Configure::write('User.roles', array(
-   'admin' => 'Admin',
-   'board' => 'Member of board',
-   'user' => 'User'
-));
+// CakePlugin::load('Users');
+// Configure::write('User.roles', array(
+//    'admin' => 'Admin',
+//    'board' => 'Member of board',
+//    'user' => 'User'
+// ));
