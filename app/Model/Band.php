@@ -37,7 +37,10 @@ class Band extends AppModel {
       'Reservations' => array(
          'className' => 'Reservations',
          'foreignKey' => 'band_id',
-      )
+      ),
+   		'LoginAccount' => array(
+   				'className' => 'LoginAccount',
+   		),
    );
    
    // Member connection. Uses the table 'bands_members' as join table
@@ -84,6 +87,23 @@ class Band extends AppModel {
 
       return $bandData;
    
+   }
+   
+   // Return an array of bands indexed by Id
+   public function getNameListIndexedById() {
+   	
+   	$res = $this->find('all');
+   	$ret = array();
+   	
+   	foreach($res as $band) {
+   		
+   		$ret[$band['Band']['id']] = $band['Band']['name'];
+   		
+   	}
+   	
+   	
+   	return $ret;
+   	
    }
 
 }

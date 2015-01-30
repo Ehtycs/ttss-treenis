@@ -39,7 +39,18 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
+			<h1>Tampereen teekkarien soitannollinen seura, treenikämpän varausjärjestelmä</h1>
+			<?php if (AuthComponent::user('id')): ?>
+  				 Logged in as <?php 
+  				 if(AuthComponent::user('Member')['id']) {
+  				 		echo AuthComponent::user('Member')['first_name'].' '.AuthComponent::user('Member')['last_name'];
+  				 }
+  				 else {
+  				 		echo AuthComponent::user('Band')['name'];
+  				 }
+  				 ?> (<?= AuthComponent::user('username')?>) <?= $this->Html->link('Logout', array('controller' => 'LoginAccount', 'action' => 'logout')) ?>
+  				 
+			<?php endif; ?>
 		</div>
 		
 		<div id="content">

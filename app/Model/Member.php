@@ -14,6 +14,9 @@ class Member extends AppModel {
       'MembershipFee' => array(
       	'className' => 'MembershipFee',
       ),
+   	  'LoginAccount' => array(
+   	    'className' => 'LoginAccount',
+   	  ),
    );
    
    public $actsAs = array('Containable');
@@ -27,5 +30,22 @@ class Member extends AppModel {
          'unique' => 'keepExisting'
        ),
    );
+   
+   // Return an array of bands indexed by Id
+   public function getNameListIndexedById() {
+   
+   	$res = $this->find('all');
+   	$ret = array();
+   
+   	foreach($res as $member) {
+   		 
+   		$ret[$member['Member']['id']] = $member['Member']['first_name']." ".$member['Member']['last_name'];
+   		 
+   	}
+   
+   
+   	return $ret;
+   
+   }
    
 }
