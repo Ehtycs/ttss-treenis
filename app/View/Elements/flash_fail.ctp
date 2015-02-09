@@ -1,4 +1,4 @@
  
-<div class="flashMessage fail">
+<div class="flashMessage error-message">
     <?php echo $message ?>
 </div>

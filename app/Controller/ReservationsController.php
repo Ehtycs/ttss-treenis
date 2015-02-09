@@ -24,6 +24,12 @@ class ReservationsController extends AppController {
    	// make reservations for the band which is logged in 
    	$bandId = (int) $this->Auth->user('band_id');
       
+   	
+   	  if(!$this->Auth->user('band_id')) {
+   	  	$this->Session->setFlash(__('Wrong type of account'), 'flash_fail');
+   	 	$this->redirect(array('controller' => 'calendar'));
+   	  }
+   	
       if(!$bandId || !$slotId || !$date ||
       	 	!$this->Band->exists($bandId)) {
          throw new NotFoundException(__('Invalid parameters for booking'));
