@@ -7,6 +7,8 @@ class BandMembershipsController extends AppController {
     public $components = array('Session');
     public $uses = array('Band','Member', 'BandMembership');
     
+	// these things can be accessed only by admins (inherited)
+    
     /**
      *   Add member to band (both must exist) 
      */

@@ -1,7 +1,8 @@
 <?php
 /**
   *   Print out a table of members based on $members array
-  *   $membership to true if delete is a membership delete 
+  *   $memberships variable should contain true if list is 
+  *   printed to Band's info page and false if to general member listing page
   */
 ?>
 <table>
@@ -12,17 +13,17 @@
         <th>TTYY cur. y.</th>
         <th>Member fee cur. y.</th>
         <th>Access</th>
-        <!-- <th>Actions</th>-->
+        <?php echo AuthComponent::user('admin') && isset($memberships) && $memberships ? "<th>Actions</th>" : "";?>
     </tr>
     
     <?php foreach($members as $m): ?>
     <tr>
          <td><?php echo $m['id']; ?></td>
          <td><?php 
-            echo $this->Html->link(
+            echo AuthComponent::user('admin') ? $this->Html->link(
                $m['first_name'].' '.$m['last_name'], 
                array('controller' => 'members', 'action' => 'view', $m['id'])
-            );
+            ) : $m['first_name'].' '.$m['last_name'];
          ?></td>
          <td><?php echo $m['email']; ?></td>
          <td><?php 
@@ -40,7 +41,7 @@
          <td><?php if($m['access']) {echo "X";} ?></td>
          <td><?php 
          
-         if(isset($membership) and $membership) {
+         if(AuthComponent::user('admin') && isset($memberships) && $memberships) {
             echo $this->Html->link(_('Remove'), array('controller' => 'BandMemberships', 
                                                       'action' => 'remove', $m['BandsMember']['id']));
          } /*else {

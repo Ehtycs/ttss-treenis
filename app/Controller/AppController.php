@@ -33,28 +33,52 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 	
 	public $components = array(
-				'Session',
-				'Auth' => array(
+			'Session',
+			'Auth' => array(
 					'authenticate' => array(
-				            'Form' => array(
-				                'userModel' => 'LoginAccount',
-				            	'passwordHasher' => 'Blowfish',
-				            )
-			        ),
+							'Form' => array(
+									'userModel' => 'LoginAccount',
+									'passwordHasher' => 'Blowfish',
+							)
+					),
 					'loginRedirect' => array(
-							'controller' => 'members',
-							'action' => 'index'
+							'controller' => 'LoginAccount',
+							'action' => 'login'
 					),
 					'logoutRedirect' => array(
-							'controller' => 'bands',
-							'action' => 'index',
+							'controller' => 'LoginAccount',
+							'action' => 'login',
 							'home'
 					),
 					'loginAction' => array(
 							'controller' => 'LoginAccount',
 							'action' => 'login'
 					),
+					'authorize' => array('Controller'),
 			)
- 	);
+			
+			
+	);
+	
+	public function isAdmin() {
+		
+		return (bool) $this->Auth->user('admin');
+		
+	}
+	
+	public function isAuthorized($user) {
+		
+	    // Admin can access everything
+    	if($user['admin']) {
+    		return true;
+    	}
+		
+		// Default deny
+		return false;
+		
+	}
 	
 }
+
+
+

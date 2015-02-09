@@ -5,6 +5,8 @@ class ConstReservAccountController extends AppController {
    public $helpers = array('Html', 'Form', 'Session');
    public $components = array('Session');
    public $uses = array('Band','ConstReservAccount', 'Slot'); 
+   
+   // Only for admins
 
    public function add($bandId = null) {
    

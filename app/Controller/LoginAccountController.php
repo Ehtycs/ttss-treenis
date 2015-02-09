@@ -4,6 +4,17 @@ class LoginAccountController extends AppController {
 	public $helpers = array('Html', 'Form', 'Session');
 	public $components = array('Session');
 	public $uses = array('LoginAccount', 'Member', 'Band');
+	
+	public function isAuthorized($user) {
+		
+		// login and logout should be accessed by bands
+    	if(in_array($this->action, array('login', 'logout'))) {
+			return true;
+    	}
+    	
+    	return parent::isAuthorized($user);
+		
+	}
 
 
 	public function index() {
@@ -48,12 +59,16 @@ class LoginAccountController extends AppController {
 				$this->Session->setFlash(__('Deleting account failed.'), 'flash_fail');
 			}
 		}
-		return $this->redirect(array('controller' => 'AdminAccount', 'action' => 'index'));
+		return $this->redirect(array('controller' => 'LoginAccount', 'action' => 'index'));
 	}
 	
-	// Login function for admin accounts
+	// Login function
 	public function login() {
-		debug($this->request->data);
+		
+		if($this->Auth->user()) {
+			$this->redirect(array('controller' => 'pages'));
+		}
+		
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
 				return $this->redirect($this->Auth->redirectUrl());

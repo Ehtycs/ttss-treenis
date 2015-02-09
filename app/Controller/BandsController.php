@@ -6,7 +6,25 @@ class BandsController extends AppController {
     public $components = array('Session');
     public $uses = array('Band','Member', 'ConstReservAccount', 'ReservAccount');
     
+    // Give a band access to its own information
+    // Give admins full access
+    public function isAuthorized($user) {
+		
+    	// bands can access view and edit methods
+    	if(in_array($this->action, array('view', 'edit'))) {
+			return true;
+    	}
+    	
+    	return parent::isAuthorized($user);
+    	
+    }
+
+    
     public function index() {
+    	if(!$this->isAdmin()) {
+    		return $this->redirect(array('controller' => 'bands', 'action' => 'view'));
+    	}
+    	
       // Get a list of bands. Dont associate members to bands 
       $res = $this->Band->find('all', array('recursive' => 0));
       // Get the column 'Bands' to be passed to BandList element
@@ -24,8 +42,17 @@ class BandsController extends AppController {
     
     public function view($id = null) {
 
-    	if(!$id) {
-    		throw new NotFoundException(__("Invalid band id!"));
+    	// if user has the admin bit, 
+    	// let id go through
+    	if(!$id || !$this->isAdmin()) {
+    		if($this->Auth->user('band_id')) {
+    			$id = $this->Auth->user('band_id');
+    			
+    		}
+    		else {
+	    		$this->Session->setFlash(__('Select band from the list'), 'flash_success');
+    			return $this->redirect(array('controller' => 'bands', 'action' => 'index'));
+    		}
     	}
     	
     	$bandData = $this->Band->getViewDataById($id);
@@ -57,6 +84,18 @@ class BandsController extends AppController {
     }
     
     public function edit($id = null) {
+    	
+    	// if user has the admin bit,
+    	// let id go through
+    	if(!$id || !$this->isAdmin()) {
+    		if($this->Auth->user('band_id')) {
+    			$id = $this->Auth->user('band_id');
+    			 
+    		}
+    		else {
+    			throw new NotFoundException(__("Invalid band id!"));
+    		}
+    	}
       
       if(!$id || !$this->Band->exists($id)) {
          throw new NotFoundException(__('Invalid band id'));

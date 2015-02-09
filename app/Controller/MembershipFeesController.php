@@ -2,6 +2,9 @@
 
 class MembershipFeesController extends AppController {
 
+	
+	// only for admins 
+	
 	public $helpers = array('Html', 'Form', 'Session');
 	public $components = array('Session');
 	public $uses = array('MembershipFee', 'Member');

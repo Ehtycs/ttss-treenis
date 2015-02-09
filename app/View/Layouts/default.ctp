@@ -60,8 +60,20 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			<?php echo $this->fetch('content'); ?>
 			</div>
 			<div class="actions">
-			<?php echo $this->element('AdminMenu'); ?>
-			<?php echo $this->element('UserMenu'); ?>
+			<b>Actions:</b>
+			<?php echo $this->element('PublicMenu'); ?>
+			<?php if (AuthComponent::user('band_id')): ?>
+			<br>
+			<b>Band actions</b>
+			<?php echo $this->element('UserMenu');?>
+			<?php endif; ?>
+			
+			<?php if(AuthComponent::user('admin')) {
+				echo "<br><b>Admin actions</b><br>";
+				echo $this->element('AdminMenu');
+			}?>
+			
+
 			</div>
 		</div>
 		<div id="footer">

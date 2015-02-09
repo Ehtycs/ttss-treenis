@@ -18,4 +18,11 @@ class CalendarController extends AppController {
 //  		debug($this->Calendar->getCalendarInTableForm());
 	}
 	
+	
+	public function beforefilter() {
+		// Allow anyone to view the calendar
+		$this->Auth->allow('index');
+		
+	}
+	
 }

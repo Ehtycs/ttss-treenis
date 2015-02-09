@@ -2,14 +2,27 @@
 
 class ReservationsController extends AppController {
 
+	
    public $helpers = array('Html', 'Form', 'Session');
    public $components = array('Session');
    public $uses = array('Band', 'Reservation', 'Slot');
+   
+   public function isAuthorized($user) {
+   
+   	// this class should be accessible by bands for the 
+   	// most part
+   	if(in_array($this->action, array('book'))) {
+   		return true;
+   	}
+   	 
+   	return parent::isAuthorized($user);
+   
+   }
 
    public function book($slotId = null, $date = null) {
    	
-   	// testing purposes, make reservations for katri melua
-   	$bandId = 1;
+   	// make reservations for the band which is logged in 
+   	$bandId = (int) $this->Auth->user('band_id');
       
       if(!$bandId || !$slotId || !$date ||
       	 	!$this->Band->exists($bandId)) {
