@@ -5,6 +5,8 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 
 class LoginAccount extends AppModel {
 	
+	public $actsAs = array('Containable');
+	
 	public $belongsTo = array(
 			'Band',
 			'Member',

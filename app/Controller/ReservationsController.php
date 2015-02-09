@@ -11,7 +11,7 @@ class ReservationsController extends AppController {
    
    	// this class should be accessible by bands for the 
    	// most part
-   	if(in_array($this->action, array('book'))) {
+   	if(in_array($this->action, array('book','cancel'))) {
    		return true;
    	}
    	 
@@ -62,6 +62,23 @@ class ReservationsController extends AppController {
 //       $slots = $this->Slot->getAvailableTimeslots($bandId);
 //       $this->set('slots', $slots);
       
+   }
+   
+   public function cancel($id = null) {
+   	
+		if(!$id) {
+			throw new NotFoundException(__('Invalid parameters for booking'));
+		}
+		
+		if($this->Reservation->delete($id)) {
+			$this->Session->setFlash(__('Reservation has been cancelled'), 'flash_success');
+		}
+		else {
+			$this->Session->setFlash(__('Cancellation failed'), 'flash_fail');
+		}
+   	
+		$this->redirect(array('controller' => 'Calendar'));
+   	
    }
 
 

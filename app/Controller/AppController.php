@@ -39,7 +39,16 @@ class AppController extends Controller {
 							'Form' => array(
 									'userModel' => 'LoginAccount',
 									'passwordHasher' => 'Blowfish',
-							)
+									// contain band info and member info
+									// contain also timeslots
+									'contain' => array(
+										'Band' => array(
+												'HasConstReservAccount'
+										),
+									    'Member',
+									),
+							),
+
 					),
 					'loginRedirect' => array(
 							'controller' => 'LoginAccount',
