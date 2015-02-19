@@ -34,3 +34,9 @@
 	background-color: #3B8230;
 	
 }
+
+#booking-calendar td.gone {
+/* 	background-color: rgba(0, 0,0,1);*/
+	background-color: #050505;
+	
+}

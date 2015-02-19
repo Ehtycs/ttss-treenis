@@ -151,8 +151,9 @@ class Calendar extends AppModel {
 			if(!isset($this->calendar[$date->format('W')])) {
 				$this->calendar[$date->format('W')] = array();
 			}
+				
 			// index by week number, and date
-			$this->calendar[$date->format('W')][$date->format('Y-m-d')] = $this->_createDay($date);
+			$this->calendar[$date->format('W')][$date->format('Y-m-d')] = $this->_createDay($date, $i==0 ? true : false);
 			$date->modify("+1 days");
 		}
 		
@@ -164,11 +165,12 @@ class Calendar extends AppModel {
 	
 	/**
 	 * Creates a data structure of a day (date)
-	 * @param string $date, day to generate
+	 * @param string $date, day to generate $today, true if we should remove
+	 * 		  slots that are in the past 
 	 * @throws InternalErrorException if  $date is null
 	 * @return array of timeslots in a day
 	 */
-	private function _createDay($date = null) {
+	private function _createDay($date = null, $today = false) {
 		
 		if(!$date) {
 			throw new InternalErrorException('Invalid date');
@@ -180,11 +182,21 @@ class Calendar extends AppModel {
 		// get slots in this day
 		$slots = $this->slots[$this->_toTTSSWeek($date->format('w'))];
 		
+		$now = new DateTime('+0 days');
+		
+		
 		// index slots by clock time
 		foreach($slots as $s) {
+			
+			if($today) {
+				$endtime = new DateTime($date->format('Y-m-d').' '.$s['end']);
+				$diff = $now->diff($endtime);
+			}
+			
 			$day[$s['start']] = array( 
 					"Slot" => $s,
-					"Reservation" => $this->_getReservation($date->format('Y-m-d'), $s['id']),
+					// If $today is true, check the time, if time is past, put "gone" to reservation
+					"Reservation" => $today && $diff->invert ? "gone" : $this->_getReservation($date->format('Y-m-d'), $s['id']),
 					// this can be dealt with ternary
 					"OwnedTimeSlot" => isset($this->ownedslots[$s['id']]) ? $this->ownedslots[$s['id']] : null, 
 			);

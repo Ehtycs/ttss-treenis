@@ -35,7 +35,10 @@ unset($date);
 <?php foreach($row as $date => $slot):?>
 <td class="<?php 
 // correct class to cell
-if($slot['Reservation']) {
+if($slot['Reservation'] == "gone") {
+	echo "gone";
+}
+else if($slot['Reservation']) {
 	echo "booked";
 }
 else if($slot['OwnedTimeSlot']) {
@@ -51,7 +54,10 @@ echo $slot['Slot']['hours'];
 ?>">
 <?php
 // if there are reservations
-if($slot['Reservation']) {
+if($slot['Reservation'] == "gone") {
+	echo "";
+}
+else if($slot['Reservation']) {
 	// if band that's logged in has booked this reservation
 	if($slot['Reservation']['ReservedBy']['id'] == AuthComponent::user('band_id')) {
 		echo $slot['Reservation']['ReservedBy']['name']."<br>";

@@ -16,7 +16,7 @@ class CalendarController extends AppController {
 		$this->set('ajaxForm', $this->Calendar->calendar);
 // 		debug($this->Auth->user());
 		
-//   		debug($this->Calendar->calendar);
+//    		debug($this->Calendar->calendar);
 	}
 	
 	

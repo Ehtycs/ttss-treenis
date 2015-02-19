@@ -36,6 +36,53 @@ class Reservation extends AppModel {
    		return $res;
    	}
    	
+   	public function beforeSave($options = array()) {
+
+   		// Get band info 
+   		$band = $this->ReservedBy->find(
+   			'first', array( 
+   				'contain' => array(
+   					'HasReservAccount' => array(),
+   					'HasConstReservAccount' => array(),
+   				),
+   				'conditions' => array(
+   					'ReservedBy.id' => $this->data['Reservation']['band_id'],
+   				),
+   		));
+   		
+   		// Get slot info, mainly if the slot is an owned timeslot
+   		$ownedSlot = $this->ToSlot->find('first',
+   			array(
+   					'conditions' => array(
+   						'ToSlot.id' => $this->data['Reservation']['slot_id'],
+   					),
+   					'contain' => array(
+   						'OwnedByConstReservAccount'
+   					)
+   			)		
+   		);
+   		
+   		// if band is owner of this timeslot, accept reservation
+   		// if timeslot is not owned (band_id = null) accept also
+   		if(!$ownedSlot['OwnedByConstReservAccount']['band_id'] || 
+   		   $ownedSlot['OwnedByConstReservAccount']['band_id'] == 
+   		    $this->data['Reservation']['band_id']) {
+   			return true;
+   		}
+   		// if the 'two days' criteria is met 16:00 
+   		else {
+   			$now = new DateTime('+0 days');
+   			$slotd = new DateTime($this->data['Reservation']['date'].' 16:00:00');
+   			$diff = $slotd->diff($now);
+   			if($diff->d < 2) {
+   				return true;
+   			}
+   		}
+   		
+   		// otherwise return false
+   		return false;
+   		
+   	}
 
 }
 
