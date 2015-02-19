@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * Cases dealt with:
+ * - x Band tries to reserve owned timeslot that they dont own
+ * - x Slot and date do not match 
+ * - Band doesn't have a valid booking account
+ * 
+ */
+
 class Reservation extends AppModel {
 
    	public $actsAs = array('Containable');
@@ -37,6 +45,13 @@ class Reservation extends AppModel {
    	}
    	
    	public function beforeSave($options = array()) {
+   		
+   		// check that slotid and date are ok
+   		
+   		if(!$this->ReservedBy->hasBookingAccount(
+   				$this->data['Reservation']['band_id'])) {
+   			return false;			
+   		}
 
    		// Get band info 
    		$band = $this->ReservedBy->find(
@@ -61,6 +76,14 @@ class Reservation extends AppModel {
    					)
    			)		
    		);
+   		
+   		// slot id and date correspond check
+   		$slotd = new DateTime($this->data['Reservation']['date'].' 16:00:00');
+   		if($ownedSlot['ToSlot']['day'] != $slotd->format('w')-1) {
+   			return false;
+   		}
+//    		debug($ownedSlot);
+//    		throw new NotFoundException();
    		
    		// if band is owner of this timeslot, accept reservation
    		// if timeslot is not owned (band_id = null) accept also

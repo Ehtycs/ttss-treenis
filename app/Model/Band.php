@@ -105,5 +105,45 @@ class Band extends AppModel {
    	return $ret;
    	
    }
+   
+   // check that band has a valid booking account
+   public function hasBookingAccount($id = null) {
+   	
+   	$year = 2015;
+   	
+   	$res = $this->find('first', array(
+   			'contain' => array(
+   				'HasReservAccount' => array(
+   					'conditions' => array(
+   						'HasReservAccount.year' => $year,
+   					)
+   				),
+   				'HasConstReservAccount' => array(
+   					'conditions' => array(
+   						'HasConstReservAccount.year' => $year,
+   					)
+   				),
+   					
+   			),
+   			'conditions' => array(
+   				'id' => $id,		
+ 				)
+   			
+   	));
+   	
+//    	debug($res);
+   	
+//    	throw new NotFoundException();
+   	
+   	if(count($res['HasConstReservAccount']) > 0 ||
+   	   count($res['HasReservAccount']) > 0) {
+   			return true;
+   	}
+   	
+   	return false;
+   	   		
+
+   	
+   }
 
 }

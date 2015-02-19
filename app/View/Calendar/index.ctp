@@ -22,7 +22,9 @@
 <tr>
 <td class="hour" >Week <?php echo $weekno;?></th>
 <?php foreach($ajaxForm[$weekno] as $date => $d): ?>
-<th><?php echo $date; ?></th>
+<th><?php 
+$weekday = new DateTime($date);
+echo $weekday->format('D').'<br>'.$weekday->format('d.m'); ?></th>
 <?php 
 endforeach; 
 unset($date);
