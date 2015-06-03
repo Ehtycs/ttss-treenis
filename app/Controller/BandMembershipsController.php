@@ -1,4 +1,3 @@
- 
 <?php
 
 class BandMembershipsController extends AppController {
