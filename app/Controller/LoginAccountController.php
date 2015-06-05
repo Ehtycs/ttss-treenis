@@ -8,7 +8,7 @@ class LoginAccountController extends AppController {
 	public function isAuthorized($user) {
 		
 		// login and logout should be accessed by bands
-    	if(in_array($this->action, array('login', 'logout'))) {
+    	if(in_array($this->action, array('login', 'logout','changepw'))) {
 			return true;
     	}
     	
@@ -41,6 +41,39 @@ class LoginAccountController extends AppController {
 		$bands[0] = '<empty>';
 		$this->set('members', $members);
 		$this->set('bands', $bands);
+		
+	}
+	
+	public function changepw() {
+		
+		$id = $this->Auth->User("id");
+		
+		if(!$id || !$this->LoginAccount->exists($id)) {
+			throw new NotFoundException(__('Invalid LoginAccount id'));
+		}
+		
+		if(!$this->request->is('get')) {
+			$error = "";
+			switch($this->LoginAccount->saveChangedPassw($this->request->data)) {
+			case "OK":
+				$this->Session->setFlash(__('Changes saved'), 'flash_success');
+				return $this->redirect(array('controller' => 'LoginAccount', 'action' => 'changepw'));
+				
+			case "CONFIRM_ERROR":
+				$error = "New passwords don't match";
+				break;
+			case "SAVE_ERROR": 
+				$error = "Unexpected error during data saving";
+			    break;
+			case "PASSWD_ERROR":
+				$error = "Old password didn't match";
+			}
+			$this->Session->setFlash(__('Data was not saved: '.$error), 'flash_fail');
+		}
+		$account = $this->LoginAccount->findWithoutPassword($id);
+		$this->set('accountName', $account['LoginAccount']['username']);
+		//debug($account);
+		$this->request->data = $account;
 		
 	}
 	
