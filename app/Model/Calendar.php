@@ -184,7 +184,6 @@ class Calendar extends AppModel {
 		
 		$now = new DateTime('+0 days');
 		
-		
 		// index slots by clock time
 		foreach($slots as $s) {
 			
@@ -193,12 +192,16 @@ class Calendar extends AppModel {
 				$diff = $now->diff($endtime);
 			}
 			
+			$start = new DateTime($date->format('Y-m-d').' '.$s['start']);
+			
 			$day[$s['start']] = array( 
 					"Slot" => $s,
 					// If $today is true, check the time, if time is past, put "gone" to reservation
 					"Reservation" => $today && $diff->invert ? "gone" : $this->_getReservation($date->format('Y-m-d'), $s['id']),
-					// this can be dealt with ternary
-					"OwnedTimeSlot" => isset($this->ownedslots[$s['id']]) ? $this->ownedslots[$s['id']] : null, 
+					// if owned slot is found, put band it to it, otherwise null to show that it's not owned
+					//"OwnedTimeSlot" => isset($this->ownedslots[$s['id']]) ? $this->ownedslots[$s['id']] : null, 
+					"OwnedTimeSlot" => $this->_ownedTimeSlotRealease($s['id'], $now, $start),
+					
 			);
 		}
 		
@@ -214,6 +217,31 @@ class Calendar extends AppModel {
 		return $this->reservations[$d][$id];
 	}
 	
+	// determine if owned timeslot is to be released for all to reserve
+	// TODO: put the variables controlling this shit to database so it can be configured
+	private function _ownedTimeSlotRealease($id, $now, $start) {
+		if(isset($this->ownedslots[$id])) {
+			// check if slot date is before release date
+			$release = new DateTime('+2 days');
+			$limit = new DateTime('+0 days');
+			$limit->setTime(16, 00, 00);
+			
+			$begin = new DateTime();
+			// if today is past 16:00:00, and the slot we are handling is between now and release time
+			// return null -> slot is free to take
+			if($now->diff($limit)->invert && $release->diff($start)->invert) {
+				return null;
+			}
+			else {
+				// else return name or id of owner band or something
+				return $this->ownedslots[$id];
+			}
+			
+		}
+		else {
+			return null;
+		}
+	}
 
 	
 	// from 0=sunday...6=saturday to 0=monday...6=sunday
