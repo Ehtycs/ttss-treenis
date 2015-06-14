@@ -75,6 +75,7 @@ class AppController extends Controller {
 		
 	}
 	
+	// Access is defaulted for admins,
 	public function isAuthorized($user) {
 		
 	    // Admin can access everything

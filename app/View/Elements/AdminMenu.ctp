@@ -10,6 +10,7 @@
       <li><?php echo $this->Html->link(_('Add a login account'), array('controller' => 'LoginAccount', 'action'=>'add'));?></li>
       <li>&nbsp;</li>
       <li><?php echo $this->Html->link(_('Modify Timeslots'), array('controller' => 'slots', 'action'=>'index'));?></li>
+      <li><?php echo $this->Html->link(_('Change system settings'), array('controller' => 'systemSettings', 'action'=>'index'));?></li>
       <li>&nbsp;</li>
       <li><?php echo $this->Html->link(_('Change password'), array('controller' => 'LoginAccount', 'action'=>'changepw'));?></li>
       

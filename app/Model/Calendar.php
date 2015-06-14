@@ -49,6 +49,16 @@ class Calendar extends AppModel {
 	private $ownedslots = null;
 	private $slots = null;
 	
+	private $systemSettings = null;
+	
+	public function __construct($id = false, $table = null, $ds = null) {
+		
+		$settings = ClassRegistry::init('SystemSettings');
+		$this->systemSettings = $settings->find('first')['SystemSettings'];
+		debug($this->systemSettings);
+		parent::__construct($id, $table, $ds);
+	}
+	
 	/**
 	 * 	Rewamp the calendar array so that it can quickly be put together as a table (in a view)
 	 *  (row by row)
@@ -218,18 +228,30 @@ class Calendar extends AppModel {
 	}
 	
 	// determine if owned timeslot is to be released for all to reserve
-	// TODO: put the variables controlling this shit to database so it can be configured
+	// Reads time constraints from database system_settings table.
 	private function _ownedTimeSlotRealease($id, $now, $start) {
 		if(isset($this->ownedslots[$id])) {
-			// check if slot date is before release date
-			$release = new DateTime('+2 days');
-			$limit = new DateTime('+0 days');
-			$limit->setTime(16, 00, 00);
+			// Day limit for unbooked owned timeslot release
+			$releaseDays = $this->systemSettings['release_slots_days'];
+			$release = new DateTime('+'.$releaseDays.' days');
 			
-			$begin = new DateTime();
-			// if today is past 16:00:00, and the slot we are handling is between now and release time
-			// return null -> slot is free to take
-			if($now->diff($limit)->invert && $release->diff($start)->invert) {
+			// Time when unowned slots will be released.
+			$limit = new DateTime('+0 days');
+			$releaseTime = explode(':',$this->systemSettings['release_slots_time']);
+			
+			//$limit->setTime(16, 00, 00);
+			$limit->setTime($releaseTime[0], $releaseTime[1], $releaseTime[2]);
+
+			$rDd = $now->diff($start)->d;	// days from now to beginning of slot
+			
+			// THE LOGIC STEPS: 
+			// if $rDd is less than $releaseDays-1, we are close enough and slot is free to take.
+			if($rDd < $releaseDays-1) {
+				return null;	
+			}
+			//if($now->diff($limit)->invert && $release->diff($start)->invert) {
+			// if rDr and releaseDays are equal, check the time. If time is past $releaseTime, slot is free to take
+			else if($rDd == $releaseDays-1 && $now->diff($limit)->invert) {
 				return null;
 			}
 			else {
