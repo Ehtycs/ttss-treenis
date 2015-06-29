@@ -23,7 +23,6 @@ class CalendarController extends AppController {
 	public function beforefilter() {
 		// Allow anyone to view the calendar
 		$this->Auth->allow('index');
-		
 	}
 	
 }

@@ -246,12 +246,12 @@ class Calendar extends AppModel {
 			
 			// THE LOGIC STEPS: 
 			// if $rDd is less than $releaseDays-1, we are close enough and slot is free to take.
-			if($rDd < $releaseDays) {
+			if($rDd < $releaseDays-1) {
 				return null;	
 			}
 			//if($now->diff($limit)->invert && $release->diff($start)->invert) {
 			// if rDr and releaseDays are equal, check the time. If time is past $releaseTime, slot is free to take
-			else if($rDd == $releaseDays && $now->diff($limit)->invert) {
+			else if($rDd == $releaseDays-1 && $now->diff($limit)->invert) {
 				return null;
 			}
 			else {
