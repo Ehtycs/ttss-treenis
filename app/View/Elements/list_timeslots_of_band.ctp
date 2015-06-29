@@ -7,14 +7,17 @@
 
 ?>
 <table>
-<tr><th>id</th><th>Type/timeslot</th><th>Year</th><th>Is valid</th><th>Is paid</th><?php
+<tr><!--<th>id</th>--><th>Type/timeslot</th><th>Year</th><th>Is valid</th><th>Is paid</th><?php
 echo $actions ? "<th>Actions</th>" : "";
 ?></tr>
 <?php foreach ($reservationAccountData as $ra): ?>
-<tr><td>
+<tr>
+<!-- <td> -->
 <?php
-echo $ra['id'];
-?></td><td><?php
+//echo $ra['id'];
+?>
+<!-- </td> -->
+<td><?php
 echo isset($ra['OwnsSlot']) ? $ra['OwnsSlot']['text'] : "Booking account"; 
 ?></td><td><?php
 echo $ra['year'];
@@ -32,7 +35,7 @@ $this->Form->postLink(
       $ra['id']
    ), array(),
    "This deletes the booking account or timeslot permanently. ". 
-   "Confirm? (Use of 'is valid' for bans is recommended)" 
+   "Confirm? (Use of 'Is valid' field for bans is recommended)" 
 )
 ."</td>" : ""; 
 ?></tr>

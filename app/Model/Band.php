@@ -92,7 +92,7 @@ class Band extends AppModel {
    // Return an array of bands indexed by Id
    public function getNameListIndexedById() {
    	
-   	$res = $this->find('all');
+   	$res = $this->find('all', array('order' => array('name ASC')));
    	$ret = array();
    	
    	foreach($res as $band) {

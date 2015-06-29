@@ -26,7 +26,10 @@ class BandsController extends AppController {
     	}
     	
       // Get a list of bands. Dont associate members to bands 
-      $res = $this->Band->find('all', array('recursive' => 0));
+      $res = $this->Band->find('all', array(
+      		'recursive' => 0,
+      		'order' => array('name ASC')
+      ));
       // Get the column 'Bands' to be passed to BandList element
       // requires php 5.5
       //$bands = array_column($res, 'Band');
@@ -67,6 +70,9 @@ class BandsController extends AppController {
     	
     	$this->set('reservationAccountData', $racc);
     	$this->set('bandData',$bandData);
+    	
+    	// set flag to show the remove button column for each band member
+    	$this->set('memberships', true);
 
     } 
     

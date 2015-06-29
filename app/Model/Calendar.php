@@ -55,7 +55,7 @@ class Calendar extends AppModel {
 		
 		$settings = ClassRegistry::init('SystemSettings');
 		$this->systemSettings = $settings->find('first')['SystemSettings'];
-		debug($this->systemSettings);
+		//debug($this->systemSettings);
 		parent::__construct($id, $table, $ds);
 	}
 	

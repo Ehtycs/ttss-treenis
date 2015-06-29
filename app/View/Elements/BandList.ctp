@@ -6,13 +6,13 @@
  ?>
 <table>
     <tr>
-        <th>Id</th>
+		<!--<th>Id</th>-->
         <th>Name</th>
     </tr>
     
     <?php foreach($bands as $m): ?>
     <tr>
-         <td><?php echo $m['id']; ?></td>
+         <!--<td>--><?php //echo $m['id']; ?><!--</td>-->
          <td><?php echo $this->Html->link($m['name'], 
                      array('controller' => 'bands', 
                            'action' => 'view', 

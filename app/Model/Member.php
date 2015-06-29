@@ -34,13 +34,13 @@ class Member extends AppModel {
    // Return an array of bands indexed by Id
    public function getNameListIndexedById() {
    
-   	$res = $this->find('all');
+   	$res = $this->find('all', array(
+   			'order' => array('first_name ASC')
+   	));
    	$ret = array();
    
    	foreach($res as $member) {
-   		 
    		$ret[$member['Member']['id']] = $member['Member']['first_name']." ".$member['Member']['last_name'];
-   		 
    	}
    
    

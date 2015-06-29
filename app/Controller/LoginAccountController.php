@@ -19,7 +19,10 @@ class LoginAccountController extends AppController {
 
 	public function index() {
 // 		debug($this->LoginAccount->find('all'));
-		$this->set('accounts', $this->LoginAccount->find('all'));
+		$this->set('accounts', 
+				   $this->LoginAccount->find('all', array(
+				   		'order' => array('username ASC')
+				   )));
 
 	}
 	

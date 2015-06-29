@@ -9,7 +9,7 @@ class BandMembershipsController extends AppController {
 	// these things can be accessed only by admins (inherited)
     
     /**
-     *   Add member to band (both must exist) 
+     *   Add member to band, has option to add completely new member too
      */
     public function add($bandId = null) {
       if(!$bandId || !$this->Band->exists($bandId)) {

@@ -13,6 +13,9 @@ class MembersController extends AppController {
       $res = $this->Member->find('all', array(
       		'contain' => array(
       			'MembershipFee'
+      		),
+      		'order' => array(
+      			'first_name ASC'
       		)
       ));
 

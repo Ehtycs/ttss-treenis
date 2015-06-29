@@ -1,13 +1,13 @@
 <?php
 /**
   *   Print out a table of members based on $members array
-  *   $memberships variable should contain true if list is 
+  *!!! $memberships variable should contain true if list is !!! 
   *   printed to Band's info page and false if to general member listing page
   */
 ?>
 <table>
     <tr>
-        <th>Id</th>
+        <!--<th>Id</th>-->
         <th>Name</th>
         <th>Email</th>
         <th>TTYY cur. y.</th>
@@ -18,7 +18,7 @@
     
     <?php foreach($members as $m): ?>
     <tr>
-         <td><?php echo $m['id']; ?></td>
+         <!--<td><?php echo $m['id']; ?></td>-->
          <td><?php 
             echo AuthComponent::user('admin') ? $this->Html->link(
                $m['first_name'].' '.$m['last_name'], 
