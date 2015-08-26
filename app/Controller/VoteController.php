@@ -32,7 +32,8 @@ class VoteController extends AppController {
     public function confirm($id = NULL, $token = NULL) {
     	//debug(array($id,$token));
     	if(!$id || !$this->Vote->exists($id) || !$token) {
-     		throw new NotFoundException(__('Invalid id'));
+     		$this->Session->setFlash(__('Confirmation failed'), 'flash_fail');
+     		return $this->redirect(array('controller' => 'Vote', 'action' => 'index'));
     	}
     	
     	$vote = $this->Vote->findById($id);
@@ -43,7 +44,6 @@ class VoteController extends AppController {
     		 }
     		 else {
     		 	  $this->Session->setFlash(__('Confirmation failed, saving data failed.'), 'flash_fail');
-    		 	
     		 }
     	}
     	else {
