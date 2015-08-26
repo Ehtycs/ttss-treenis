@@ -34,7 +34,7 @@ class Vote extends AppModel {
     * Tune the save operation a bit.
     */
    public function saveVote($qData = NULL, $validate = true, $fieldList = array()) {
-        debug($qData);
+        //debug($qData);
         if(isset($qData['Vote']['magic_word'])) {
 	        unset($qData['Vote']['magic_word']);
         }
@@ -49,7 +49,7 @@ class Vote extends AppModel {
         
         
         if(!$this->sendConfirmationMail($qData, $chash)) {
-        	debug("Maili feil");
+        	//debug("Maili feil");
         	return false;
         }
         

@@ -30,7 +30,7 @@ class VoteController extends AppController {
     }
     
     public function confirm($id = NULL, $token = NULL) {
-    	debug(array($id,$token));
+    	//debug(array($id,$token));
     	if(!$id || !$this->Vote->exists($id) || !$token) {
      		throw new NotFoundException(__('Invalid id'));
     	}
