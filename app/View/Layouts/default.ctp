@@ -22,11 +22,11 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $cakeDescription ?>:
+		<?php echo "TTSS Rehearsal room reservation system" ?>:
 		<?php echo $this->fetch('title'); ?>
 	</title>
 	<?php
-		echo $this->Html->meta('icon');
+		echo $this->Html->meta('ttss-icon.gif');
 
 		echo $this->Html->css('cake.generic');
 		echo $this->Html->css('booking-calendar');
@@ -39,7 +39,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <body>
 	<div id="container">
 		<div id="header">
-			<h1>Tampereen teekkarien soitannollinen seura, treenikämpän varausjärjestelmä</h1>
+			<!-- <h1>TTSS - Tampereen teekkarien soitannollinen seura, rehearsal room reservation system</h1> -->
+			<?php echo $this->Html->image("ttss-logo.png", array("style" => "display: block; margin-bottom: -50px;")); ?>
 			<?php if (AuthComponent::user('id')): ?>
   				 Logged in as <?php 
   				 if(AuthComponent::user('Member')['id']) {
