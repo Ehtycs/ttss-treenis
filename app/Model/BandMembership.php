@@ -60,7 +60,7 @@ class BandMembership extends AppModel {
             
             //debug($ret);
             
-            asort($res);
+            asort($ret);
             
             return $ret;
          
