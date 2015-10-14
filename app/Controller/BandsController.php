@@ -81,36 +81,13 @@ class BandsController extends AppController {
     	if($this->request->is('post')) {
     		// Create band object and save it 
     		$this->Band->create();
-			$band = array(
-				'Band' => array( 
-					'name' => $this->request->data['Band']['name']
-				)
-			);
-			
-    		if($this->Band->save($band)) {
-    			$this->Session->setFlash(__('Band has been saved'), 'flash_success');
-    			// Check if loginaccount and password were given
-				if((count($this->request->data['Band']['login_account']) > 0) and 
-					(count($this->request->data['Band']['password']) > 0)){
-					// Create object and save 
-					$loginaccount = array(
-						'LoginAccount' => array(
-							'band_id' => $this->Band->getLastInsertId(),
-							'password' => $this->request->data['Band']['password'],
-							'username' => $this->request->data['Band']['login_account'],
-						)
-					);
-					if($this->LoginAccount->save($loginaccount)) {
-						$this->Session->setFlash(__('Band and login account have been saved'), 'flash_success');
-					}
-					else {
-						$this->Session->setFlash(__('Band was saved. Error occured when saving login account'), 'flash_error');
-					}
-				}
+    		$res = $this->Band->save($this->request->data);
+    		if($res['ok']) {
+    			$this->Session->setFlash(__($res['msg']), 'flash_success');
     			// Make the redirect go to just added bands view page
     			return $this->redirect(array('controller' => 'bands', 'action' => 'view', $this->Band->getLastInsertId()));
     		}
-    		$this->Session->setFlash(__('Saving the band failed'), 'flash_error');
+    		$this->Session->setFlash(__($res['msg']), 'flash_fail');
     	}
     	
     }
@@ -134,7 +111,7 @@ class BandsController extends AppController {
       }
       
       if(!$this->request->is('get')) {
-         if($this->Band->save($this->request->data)) {
+         if($this->Band->save($this->request->data)['ok']) {
             $this->Session->setFlash(__('Changes saved'), 'flash_success');
             return $this->redirect(array('controller' => 'bands', 'action' => 'view', $id));
          }

@@ -17,7 +17,11 @@ class LoginAccount extends AppModel {
 					'required' => array(
 							'rule' => array('notEmpty'),
 							'message' => 'A username is required'
-					)
+					),
+					'uniqueUsername' => array(
+						'rule' => array('uniqueUsername'),
+						'message' => 'Login account is already in use'
+					),
 			),
 			'password' => array(
 					'required' => array(
@@ -110,6 +114,11 @@ class LoginAccount extends AppModel {
 			return "SAVE_ERROR";
 		}
 		
+	}
+	
+	public function uniqueUsername($uname) {
+		// check if username is occupied
+		return !$this->hasAny(array('username' => $uname));
 	}
 	
 }
