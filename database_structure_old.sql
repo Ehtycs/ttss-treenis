@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 14, 2015 at 11:59 AM
--- Server version: 5.5.44-0+deb8u1
--- PHP Version: 5.6.13-2
+-- Generation Time: Aug 26, 2015 at 11:37 AM
+-- Server version: 5.5.43-0+deb8u1
+-- PHP Version: 5.6.11-1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -243,8 +243,7 @@ ALTER TABLE `const_reserv_accounts`
 -- Indexes for table `login_accounts`
 --
 ALTER TABLE `login_accounts`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `members`
