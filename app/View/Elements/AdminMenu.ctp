@@ -1,5 +1,4 @@
 
-<ul>
       <li><?php echo $this->Html->link(_('List Members'), array('controller' => 'members', 'action'=>'index'));?></li>
       <li><?php echo $this->Html->link(_('Add Member'), array('controller' => 'members', 'action'=>'add'));?></li>
       <li>&nbsp;</li>
@@ -13,4 +12,10 @@
       <li><?php echo $this->Html->link(_('Change system settings'), array('controller' => 'systemSettings', 'action'=>'index'));?></li>
       <li>&nbsp;</li>
       <li><?php echo $this->Html->link(_('Change password'), array('controller' => 'LoginAccount', 'action'=>'changepw'));?></li>
-</ul>
+      <li><?php 
+   echo	$this->Html->link(_('Logout'), array(
+   				'controller' => 'LoginAccount', 
+   				'action' => 'logout' 
+   		))
+   ?></li>
+

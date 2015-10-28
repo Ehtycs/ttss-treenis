@@ -25,20 +25,28 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		<?php echo "TTSS Rehearsal room reservation system" ?>:
 		<?php echo $this->fetch('title'); ?>
 	</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	
 	<?php
 		echo $this->Html->meta('ttss-icon.gif');
 
 		echo $this->Html->css('cake.generic');
 		echo $this->Html->css('booking-calendar');
+		//echo $this->Html->css('navigation');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
+	
 </head>
 <body>
-	<div id="container">
-		<div id="header">
+	<div id="container" class="container">
+		<div>
 			<!-- <h1>TTSS - Tampereen teekkarien soitannollinen seura, rehearsal room reservation system</h1> -->
 			<?php echo $this->Html->image("ttss-logo.png", array("style" => "display: block; margin-bottom: -50px;")); ?>
 			<?php if (AuthComponent::user('id')): ?>
@@ -53,30 +61,31 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
   				 
 			<?php endif; ?>
 		</div>
-		
-		<div id="content">
-         <div class="view">
-			<?php echo $this->Session->flash(); ?>
-
-			<?php echo $this->fetch('content'); ?>
-			</div>
-			<div class="actions">
-			<b>Actions:</b>
+		<nav class="navbar navbar-nav">
+		<div class="container-fluid">
+		<ul class="nav navbar-nav"> 
 			<?php echo $this->element('PublicMenu'); ?>
 			<?php if (AuthComponent::user('band_id')): ?>
-			<br>
-			<b>Band actions</b>
 			<?php echo $this->element('UserMenu');?>
 			<?php endif; ?>
 			
 			<?php if(AuthComponent::user('admin')) {
-				echo "<br><b>Admin actions</b><br>";
 				echo $this->element('AdminMenu');
 			}?>
-			
-
-			</div>
+		</ul>
 		</div>
+		</nav>
+		
+		<div id="content">
+         <!--<div class="view"> -->
+			<?php echo $this->Session->flash(); ?>
+
+			<?php echo $this->fetch('content'); ?>
+			</div>
+			  <!--  <div class="actions">
+		
+			</div> -->
+		<!-- </div>-->
 		<div id="footer">
 			<?php echo $this->Html->link(
 					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
