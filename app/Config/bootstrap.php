@@ -113,7 +113,7 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
-CakePlugin::load('DebugKit');
+//CakePlugin::load('DebugKit');
 
 // CakePlugin::load('Users');
 // Configure::write('User.roles', array(
