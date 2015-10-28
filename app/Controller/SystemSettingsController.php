@@ -17,7 +17,7 @@ class SystemSettingsController extends AppController {
 			$this->Session->setFlash(__('Saving data failed'), 'flash_fail');
 		}
 		$row = $this->SystemSetting->find('first');
-		debug($row);
+		//debug($row);
 		$this->request->data = $row;
 
 	}
