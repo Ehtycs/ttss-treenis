@@ -12,5 +12,4 @@
    				'action' => 'login' )); 
    ?></li>
       <li>&nbsp;</li>
-      <li><?php echo $this->Html->link(_('Voting kiggare'), array('controller' => 'Vote', 'action' => 'index'));?></li>
 </ul>
