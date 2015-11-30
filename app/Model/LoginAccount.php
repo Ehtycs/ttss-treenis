@@ -48,7 +48,6 @@ class LoginAccount extends AppModel {
 	
 	// Enable password hashing
 	public function beforeSave($options = array()) {
-		
 		if (isset($this->data[$this->alias]['password'])) {
 			$this->data[$this->alias]['password'] = Security::hash(
 					$this->data[$this->alias]['password'], 'blowfish'
@@ -102,8 +101,9 @@ class LoginAccount extends AppModel {
 		// avoid double hashing.
 		$account["LoginAccount"]["password"] = $data["LoginAccount"]["password_new"];
 		
-		// save
-		if($this->save($account["LoginAccount"])) {
+		// save, dont validate this time since username uniqueness 
+		// wont be fulfilled
+		if($this->save($account["LoginAccount"], false)) {
 			return "OK";
 		}
 		else {
