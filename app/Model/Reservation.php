@@ -4,7 +4,11 @@
  * Cases dealt with:
  * - x Band tries to reserve owned timeslot that they dont own
  * - x Slot and date do not match 
+ * Todo: 
  * - Band doesn't have a valid booking account
+ * - If year changeover is going on, check that 
+ *   band has rights to reserve the account on correct year
+ * - Change "two days" criteria to be read from settings
  * 
  */
 

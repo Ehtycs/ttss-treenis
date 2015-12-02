@@ -95,7 +95,6 @@ class Calendar extends AppModel {
 				}
 			}
 		}
-// 		debug($week);
 		return $week;
 		
 	}
