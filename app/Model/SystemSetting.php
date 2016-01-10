@@ -19,16 +19,25 @@ class SystemSetting extends AppModel {
    		
    		$settings = $this->find('first')['SystemSetting'];
    		$firstDay = new DateTime($settings['first_day_of_year']);
+   		//debug($firstDay);
    		
    		$diff = $now->diff($firstDay);
    		
-   		if($diff->invert) {
-   			// $firstDay is in future
-   			return ((int)$firstDay->format('Y'));
+   		if($now <= $firstDay) {
+   			// first day is on past, or equal
+   			return ((int)$firstDay->format('Y')) -1;
    		}
+   		// first day is in the future
    		
-   		// first day is in past
-		return (int)$firstDay->format('Y') -1;
+   		return (int)$firstDay->format('Y');
+   		
+   		//if($diff->invert) {
+   			// $firstDay is in future
+   			//return ((int)$firstDay->format('Y'));
+   		//}
+   		
+   		// first day is in past or equal
+		//return (int)$firstDay->format('Y') -1;
    		
    }
    
