@@ -108,7 +108,7 @@ class Calendar extends AppModel {
 	 */
 	
 	public function getCalendar($date1 = null, $date2 = null) {
-		
+				
 		// empty the calendar
 		$this->calendar = array();
 		
@@ -265,11 +265,6 @@ class Calendar extends AppModel {
 //		}
 //	}
 
-	
-	// from 0=sunday...6=saturday to 0=monday...6=sunday
-	private function _toTTSSWeek($daynum) {
-		return $daynum == 0 ? 6 : $daynum - 1;
-	}
 
 }
 

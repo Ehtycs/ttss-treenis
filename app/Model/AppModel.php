@@ -30,4 +30,20 @@ App::uses('Model', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
+	
+	protected function getCurrentUser() {
+		  // for CakePHP 2.x:
+		  App::uses('CakeSession', 'Model/Datasource');
+		  $Session = new CakeSession();
+
+		  $user = $Session->read('Auth.User');
+		
+		  return $user;
+		
+	}
+	
+	// from 0=sunday...6=saturday to 0=monday...6=sunday
+	protected function _toTTSSWeek($daynum) {
+		return $daynum == 0 ? 6 : $daynum - 1;
+	}
 }

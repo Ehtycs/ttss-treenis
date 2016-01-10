@@ -35,13 +35,6 @@ class ReservationsController extends AppController {
          throw new NotFoundException(__('Invalid parameters for booking'));
       }
       
-      // FIXME: we should check that slotId and date are correct?
-      // also check that band has pribileges to make a booking 
-      // (not owned timeslot of someone else, has paid the fees of current year)
-      // and that there is no reservations made to that slot 
-      // with given date (if someone is fooling around)
-      // 
-      
       $this->Reservation->create();
       if($this->Reservation->save(array('slot_id' => $slotId, 
       									'band_id' => $bandId,
@@ -53,29 +46,26 @@ class ReservationsController extends AppController {
       }
       
       $this->redirect(array('controller' => 'calendar'));
-//       if($this->request->is('post')) {
-//          $this->Reservation->create();
-//          $data = $this->request->data;
-//          $data['Reservation']['band_id'] = $bandId;
-         
-//          if($this->Reservation->save($data)) {
-//             $this->Session->setFlash(__('Reservation has been made'), 'flash_success');
-//             return $this->redirect(array('controller' => ''));
-//          }
-//          $this->Session->setFlash(__('Reservation failed'), 'flash_fail');
-//       }
-      
-//       $slots = $this->Slot->getAvailableTimeslots($bandId);
-//       $this->set('slots', $slots);
+
       
    }
    
    public function cancel($id = null) {
    	
+
 		if(!$id) {
 			throw new NotFoundException(__('Invalid parameters for booking'));
 		}
 		
+		$bandId = (int) $this->Auth->user('band_id');
+   	   	$reservation = $this->Reservation->findById($id);
+		
+   	   	if($reservation['Reservation']['band_id'] != $bandId) {
+   	   		$this->Session->setFlash(__('You are not allowed to cancel other bands reservations, you asshole.'), 'flash_fail');
+   	   		$this->redirect(array('controller' => 'Calendar'));
+   	   		return;
+   	   	}
+   	   	
 		if($this->Reservation->delete($id)) {
 			$this->Session->setFlash(__('Reservation has been cancelled'), 'flash_success');
 		}

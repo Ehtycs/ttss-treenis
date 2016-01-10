@@ -23,23 +23,21 @@ class SystemSetting extends AppModel {
    		$diff = $now->diff($firstDay);
    		
    		if($diff->invert) {
-   			// $firstDay is in past
-   			return ((int)$firstDay->format('Y')) - 1;
+   			// $firstDay is in future
+   			return ((int)$firstDay->format('Y'));
    		}
    		
-   		// first day is in future
-		return (int)$firstDay->format('Y');
+   		// first day is in past
+		return (int)$firstDay->format('Y') -1;
    		
    }
    
    public function isDayReleased($date) {
    	
    		$settings = $this->find('first')['SystemSetting'];
-   		//$date = $date ? $date : DateTime("+0 days");
    		$now = new DateTime("+0 days");
 		
    		$releaseDays = $settings['release_slots_days'];
-   		//$release = new DateTime('+'.$releaseDays.' days');
    		
    		// Time of day when unowned slots will be released.
 		$limit = new DateTime('+0 days');

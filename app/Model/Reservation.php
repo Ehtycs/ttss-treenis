@@ -50,13 +50,21 @@ class Reservation extends AppModel {
    	
    	public function beforeSave($options = array()) {
    		
-   		// check that slotid and date are ok
+   		$data = $this->data['Reservation'];
+   		$date = new DateTime($data['date']);
    		
-   		if(!$this->ReservedBy->hasBookingAccount(
-   				$this->data['Reservation']['band_id'])) {
+   		$user = $this->getCurrentUser();
+
+   		// Reserver id:s dont match
+   		if($user['band_id'] != $data['band_id']) {
+   			return false;
+   		}
+   		   		
+   		// check that band has a booking account
+   		if(!$this->ReservedBy->hasBookingAccount($data['band_id'], $date)) {
    			return false;			
    		}
-
+   		
    		// Get band info 
    		$band = $this->ReservedBy->find(
    			'first', array( 
@@ -73,7 +81,7 @@ class Reservation extends AppModel {
    		$ownedSlot = $this->ToSlot->find('first',
    			array(
    					'conditions' => array(
-   						'ToSlot.id' => $this->data['Reservation']['slot_id'],
+   						'ToSlot.id' => $data['slot_id'],
    					),
    					'contain' => array(
    						'OwnedByConstReservAccount'
@@ -82,13 +90,12 @@ class Reservation extends AppModel {
    		);
    		
    		// slot id and date correspond check
-   		$slotd = new DateTime($this->data['Reservation']['date'].' 16:00:00');
-   		if($ownedSlot['ToSlot']['day'] != $slotd->format('w')-1) {
+   		//$slotd = new DateTime($this->data['Reservation']['date'].' 16:00:00');
+   		$day = $this->_toTTSSWeek($date->format('w'));
+   		if($ownedSlot['ToSlot']['day'] != $day) {
    			return false;
    		}
-//    		debug($ownedSlot);
-//    		throw new NotFoundException();
-   		
+
    		// if band is owner of this timeslot, accept reservation
    		// if timeslot is not owned (band_id = null) accept also
    		if(!$ownedSlot['OwnedByConstReservAccount']['band_id'] || 
@@ -96,13 +103,11 @@ class Reservation extends AppModel {
    		    $this->data['Reservation']['band_id']) {
    			return true;
    		}
-   		// if the 'two days' criteria is met 16:00 
+   		// if day is released according to system settings
    		else {
-   			$now = new DateTime('+0 days');
-   			$slotd = new DateTime($this->data['Reservation']['date'].' 16:00:00');
-   			$diff = $slotd->diff($now);
-   			if($diff->d < 2) {
-   				return true;
+   			$Settings = ClassRegistry::init('SystemSettings');
+   			if($settings->isDayReleased($date)) {
+				return true;
    			}
    		}
    		

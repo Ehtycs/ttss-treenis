@@ -107,30 +107,37 @@ class Band extends AppModel {
    	}
    
    	// check that band has a valid booking account
-	public function hasBookingAccount($id = null) {
-   	
-   		$year = date('Y');
-   	
+	public function hasBookingAccount($id = null, $date = null) {
+		
+		$date = $date ? $date : DateTime("+0 days");
+		$settings = ClassRegistry::init('SystemSetting');
+		debug($date);
+		$year = $settings->getSystemYearOfDay($date);
+   		debug($year);
    		$res = $this->find('first', array(
    			'contain' => array(
    				'HasReservAccount' => array(
    					'conditions' => array(
    						'HasReservAccount.year' => $year,
+   						'HasReservAccount.is_paid' => true,
+   						'HasReservAccount.is_valid' => true,
    					)
    				),
    				'HasConstReservAccount' => array(
    					'conditions' => array(
    						'HasConstReservAccount.year' => $year,
+   						'HasConstReservAccount.is_paid' => true,
+   						'HasConstReservAccount.is_valid' => true,
    					)
    				),
    					
    			),
    			'conditions' => array(
    				'id' => $id,		
- 				)
+ 			)
    			
    		));
-
+		debug($res);
    		if(count($res['HasConstReservAccount']) > 0 ||
    	   		count($res['HasReservAccount']) > 0) {
    			
