@@ -11,7 +11,6 @@
  * 	array(
  * 		"Weeks" => array(
  * 			weekno => array(
- * 				// date1 ...
  * 				"date1" => array(
  * 					"time1" = array(
  *	 					"Reservation" => null / reservation data ,
@@ -49,15 +48,14 @@ class Calendar extends AppModel {
 	private $ownedslots = array();
 	private $slots = null;
 	
-	private $systemSettings = null;
+	private $SystemSettings = null;
 	
 	public function __construct($id = false, $table = null, $ds = null) {
 		
-		$settings = ClassRegistry::init('SystemSettings');
-		$this->systemSettings = $settings->find('first')['SystemSettings'];
-		//debug($this->systemSettings);
-		$this->changeDate = new DateTime($this->systemSettings['first_day_of_year']);
-		$this->now = new DateTime('+0 days');
+		$this->SystemSettings = ClassRegistry::init('SystemSetting');
+		$this->ConstReservAccounts = ClassRegistry::init('ConstReservAccount');
+		$this->now = new DateTime("+0 days");
+
 		parent::__construct($id, $table, $ds);
 	}
 	
@@ -96,6 +94,8 @@ class Calendar extends AppModel {
 			}
 		}
 		return $week;
+
+		//return array();
 		
 	}
 	
@@ -122,7 +122,7 @@ class Calendar extends AppModel {
 		
 		$Slot = ClassRegistry::init('Slot');
 		$Reservation = ClassRegistry::init('Reservation');
-		$OwnedSlot = ClassRegistry::init('ConstReservAccount');
+		//$OwnedSlot = ClassRegistry::init('ConstReservAccount');
 		
 		// fetch timeslots in week calendar form
 		$this->slots = $Slot->find('week_calendar', array(
@@ -139,21 +139,7 @@ class Calendar extends AppModel {
      		),
 		));
 		
-		$currentYear = (int)$this->now->format('Y');
-
-		//fetch all owned timeslots for current and following year
-		$this->ownedslots[$currentYear-1] = $OwnedSlot->findAllReturnBySlotId(array(
-			'conditions' => array(
-				// Current used year here 
-				'ConstReservAccount.year' => $currentYear-1
-			)	
-		));
-		$this->ownedslots[$currentYear] = $OwnedSlot->findAllReturnBySlotId(array(
-			'conditions' => array(
-				// Current used year here 
-				'ConstReservAccount.year' => $currentYear
-			)	
-		));
+		//$currentYear = (int)$this->now->format('Y');
 
 		$diff = $date1->diff($date2);
 		$date = $date1;
@@ -165,13 +151,13 @@ class Calendar extends AppModel {
 			if(!isset($this->calendar[$date->format('W')])) {
 				$this->calendar[$date->format('W')] = array();
 			}
-				
-
+							
 			// If changeDate is in the past. Use next years reservation accounts.
 			// if not, use current years reservation accounts. This is MAGIC, do not touch
-			$year = $date->diff($this->changeDate)->invert ? $currentYear-1 : $currentYear;
+			//$year = $date->diff($this->changeDate)->invert ? $currentYear-1 : $currentYear;
 			// index by week number, and date
-			$this->calendar[$date->format('W')][$date->format('Y-m-d')] = $this->_createDay($year, $date, $i==0 ? true : false);
+			$this->calendar[$date->format('W')][$date->format('Y-m-d')] = $this->_createDay($date, $i==0 ? true : false);
+			
 			$date->modify("+1 days");
 		}
 
@@ -188,7 +174,7 @@ class Calendar extends AppModel {
 	 * @throws InternalErrorException if  $date is null
 	 * @return array of timeslots in a day
 	 */
-	private function _createDay($year, $date = null, $today = false) {
+	private function _createDay($date = null, $today = false) {		
 		
 		if(!$date) {
 			throw new InternalErrorException('Invalid date');
@@ -199,6 +185,11 @@ class Calendar extends AppModel {
 		// we need to map day of week to TTSS style,  0=mon -> 6=sun
 		// get slots in this day
 		$slots = $this->slots[$this->_toTTSSWeek($date->format('w'))];
+		$ownedslots = array();
+		if(!$this->SystemSettings->isDayReleased($date)) {
+			$ownedslots = $this->ConstReservAccounts->getTimeslotsOfDayBySlotId($date);
+		}
+		
 		
 		// index slots by clock time
 		foreach($slots as $s) {
@@ -215,13 +206,10 @@ class Calendar extends AppModel {
 					// If $today is true, check the time, if time is past, put "gone" to reservation
 					"Reservation" => $today && $diff->invert ? "gone" : $this->_getReservation($date->format('Y-m-d'), $s['id']),
 					// if owned slot is found, put band it to it, otherwise null to show that it's not owned
-					// year tells which years reservation account data to use.
-					//"OwnedTimeSlot" => isset($this->ownedslots[$s['id']]) ? $this->ownedslots[$s['id']] : null, 
-					"OwnedTimeSlot" => $this->_ownedTimeSlotRealease($year, $s['id'], $this->now, $start),
-					
+					"OwnedTimeSlot" => isset($ownedslots[$s['id']]) ? $ownedslots[$s['id']]: null ,
 			);
 		}
-		
+		//debug($day);
 		return $day;
 	}
 	
@@ -236,41 +224,46 @@ class Calendar extends AppModel {
 	
 	// determine if owned timeslot is to be released for all to reserve
 	// Reads time constraints from database system_settings table.
-	private function _ownedTimeSlotRealease($year,$id, $now, $start) {
-		if(isset($this->ownedslots[$year][$id])) {
+//	private function _ownedTimeSlotRealease($year,$id, $now, $start) {
+//		if(isset($this->ownedslots[$year][$id])) {
+//			
+//			
+//			
 			// Day limit for unbooked owned timeslot release
-			$releaseDays = $this->systemSettings['release_slots_days'];
-			$release = new DateTime('+'.$releaseDays.' days');
-			
-			// Time when unowned slots will be released.
-			$limit = new DateTime('+0 days');
-			$releaseTime = explode(':',$this->systemSettings['release_slots_time']);
-			
-			//$limit->setTime(16, 00, 00);
-			$limit->setTime($releaseTime[0], $releaseTime[1], $releaseTime[2]);
-
-			$rDd = $now->diff($start)->d;	// days from now to beginning of slot
-			
-			// THE LOGIC STEPS: 
-			// if $rDd is less than $releaseDays-1, we are close enough and slot is free to take.
-			if($rDd < $releaseDays-1) {
-				return null;	
-			}
-			//if($now->diff($limit)->invert && $release->diff($start)->invert) {
-			// if rDr and releaseDays are equal, check the time. If time is past $releaseTime, slot is free to take
-			else if($rDd == $releaseDays-1 && $now->diff($limit)->invert) {
-				return null;
-			}
-			else {
-				// else return name or id of owner band or something
-				return $this->ownedslots[$year][$id];
-			}
-			
-		}
-		else {
-			return null;
-		}
-	}
+//			$releaseDays = $this->systemSettings['release_slots_days'];
+//			$release = new DateTime('+'.$releaseDays.' days');
+//			
+//			// Time when unowned slots will be released.
+//			$limit = new DateTime('+0 days');
+//			$releaseTime = explode(':',$this->systemSettings['release_slots_time']);
+//			
+//			//$limit->setTime(16, 00, 00);
+//			$limit->setTime($releaseTime[0], $releaseTime[1], $releaseTime[2]);
+//
+//			$rDd = $now->diff($start)->d;	// days from now to beginning of slot
+//			
+//			// THE LOGIC STEPS: 
+//			// if $rDd is less than $releaseDays-1, we are close enough and 
+//			// slot is free to take.
+//			if($rDd < $releaseDays-1) {
+//				return null;	
+//			}
+//			//if($now->diff($limit)->invert && $release->diff($start)->invert) {
+//			// if rDr and releaseDays are equal, check the time. If time is past 
+//			// $releaseTime, slot is free to take
+//			else if($rDd == $releaseDays-1 && $now->diff($limit)->invert) {
+//				return null;
+//			}
+//			else {
+//				// else return name or id of owner band or something
+//				return $this->ownedslots[$year][$id];
+//			}
+//			
+//		}
+//		else {
+//			return null;
+//		}
+//	}
 
 	
 	// from 0=sunday...6=saturday to 0=monday...6=sunday
