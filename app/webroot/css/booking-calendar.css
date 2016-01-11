@@ -6,6 +6,12 @@
 	
 }
 
+#booking-calendar a {
+	
+	color: #003d4c;
+	
+}
+
 #booking-calendar td {
 	width: 50px;
     word-wrap: break-word;
