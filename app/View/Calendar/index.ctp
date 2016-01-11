@@ -3,11 +3,12 @@
 /*
  * Note of author:
  * 
- * This is a horrible piece of shit.
+ * This is a horrible piece of shit. -A Jun/2015
+ * This is literally a horrible pile of doodoo. -A Jan/2016
  * 
- * This is pretty much violating the MVC principles
+ * This is pretty much violating the every principle on earth
  * but this page was the easiest way to implement 
- * the calendar. 
+ * the calendar. Will be 'optimized' in future versions.
  * 
  * TODO: The 'business logic' could be moved 
  * to calendar model also. That would be very good.
@@ -63,9 +64,30 @@ else if($slot['Reservation']) {
 	// if band that's logged in has booked this reservation
 	if($slot['Reservation']['ReservedBy']['id'] == AuthComponent::user('band_id')) {
 		echo $slot['Reservation']['ReservedBy']['name']."<br>";
+		// Add or edit message link
+		// if there are messages attached to reservation
+		if($slot['Reservation']['ReservationMessage']['id']) {
+			// Message already set, show edit link
+			echo $this->Html->link(_('Edit message'), array(
+				'controller' => 'ReservationMessages', 
+				'action' => 'edit',
+				$slot['Reservation']['ReservationMessage']['id']
+			));
+		} else {
+			// No messages set, show add link.
+			echo $this->Html->link(_('Add message'), array(
+				'controller' => 'ReservationMessages', 
+				'action' => 'add',
+				// this is disgusting :D
+				$slot['Reservation']['Reservation']['id']
+			));
+		}
+		
+
+		echo "<br>";
 		// display cancellation link
 		echo $this->Form->postLink(_('Cancel'), array(
-				'controller' => 'reservations', 
+				'controller' => 'Reservations', 
 				'action' => 'cancel',
 				// this is disgusting :D
 				$slot['Reservation']['Reservation']['id']
@@ -73,6 +95,15 @@ else if($slot['Reservation']) {
 	}
 	else {
 		echo $slot['Reservation']['ReservedBy']['name'];
+		echo "<br>";
+		// if there are messages attached to reservation
+		if($slot['Reservation']['ReservationMessage']['id']) {
+			echo $this->Html->link(_('Show message'), array(
+				'controller' => 'ReservationMessages', 
+				'action' => 'show',
+				$slot['Reservation']['ReservationMessage']['id']
+			));
+		}
 	}
 }
 // If no reservations, check if this is owned timeslot

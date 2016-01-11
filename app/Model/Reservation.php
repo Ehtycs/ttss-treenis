@@ -5,10 +5,10 @@
  * - x Band tries to reserve owned timeslot that they dont own
  * - x Slot and date do not match 
  * Todo: 
- * - Band doesn't have a valid booking account
- * - If year changeover is going on, check that 
- *   band has rights to reserve the account on correct year
- * - Change "two days" criteria to be read from settings
+ * - x Band doesn't have a valid booking account
+ * - x If year changeover is going on, check that 
+ *   x band has rights to reserve the account on correct year
+ * - x Change "two days" criteria to be read from settings
  * 
  */
 
@@ -16,6 +16,13 @@ class Reservation extends AppModel {
 
    	public $actsAs = array('Containable');
    
+   	public $hasOne = array(
+   		'ReservationMessage' => array(
+         	'className' => 'ReservationMessage',
+         	'foreignKey' => 'reservation_id',
+      	),
+   	);
+   	
    	public $belongsTo = array(
       	'ReservedBy' => array(
          	'className' => 'Band',

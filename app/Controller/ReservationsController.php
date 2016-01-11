@@ -5,7 +5,7 @@ class ReservationsController extends AppController {
 	
    public $helpers = array('Html', 'Form', 'Session');
    public $components = array('Session');
-   public $uses = array('Band', 'Reservation', 'Slot');
+   public $uses = array('Band', 'Reservation', 'Slot', 'ReservationMessage');
    
    public function isAuthorized($user) {
    
@@ -23,7 +23,6 @@ class ReservationsController extends AppController {
    	
    	// make reservations for the band which is logged in 
    	$bandId = (int) $this->Auth->user('band_id');
-      
    	
    	  if(!$this->Auth->user('band_id')) {
    	  	$this->Session->setFlash(__('Wrong type of account'), 'flash_fail');

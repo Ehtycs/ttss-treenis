@@ -5,7 +5,8 @@ class CalendarController extends AppController {
 
 	public $helpers = array('Html', 'Form', 'Session');
 	public $components = array('Session');
-
+    public $uses = array('Calendar', 'ReservationMessage');
+	
 	
 	public function index() {
 		
