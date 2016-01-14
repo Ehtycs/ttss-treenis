@@ -33,19 +33,26 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
+	?>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="js/main.js"></script>
+	<?php 
 		echo $this->fetch('script');
+		
 	?>
 </head>
 <body>
 	<div id="container">
 		<div id="header">
 			<!-- <h1>TTSS - Tampereen teekkarien soitannollinen seura, rehearsal room reservation system</h1> -->
-			<?php 
-			echo $this->Html->image("ttss-logo.png", array(
+
+			<?php echo $this->Html->image("ttss-logo.png", array(
 				"style" => "display: block; margin-bottom: -50px;",
 				"url" => array('controller' => 'pages'),
-			));
-			?>
+			)); ?>
+
 			<?php if (AuthComponent::user('id')): ?>
   				 Logged in as <?php 
   				 if(AuthComponent::user('Member')['id']) {

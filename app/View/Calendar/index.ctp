@@ -98,11 +98,13 @@ else if($slot['Reservation']) {
 		echo "<br>";
 		// if there are messages attached to reservation
 		if($slot['Reservation']['ReservationMessage']['id']) {
-			echo $this->Html->link(_('Show message'), array(
-				'controller' => 'ReservationMessages', 
-				'action' => 'show',
-				$slot['Reservation']['ReservationMessage']['id']
-			));
+			//echo $this->Html->link(_('Show message'), array(
+			//	'controller' => 'ReservationMessages', 
+			//	'action' => 'show',
+			//	$slot['Reservation']['ReservationMessage']['id']
+			//));
+			echo "<a href=\"javascript:;\" onclick=\"showReservationMessage(".
+			$slot['Reservation']['ReservationMessage']['id'].")\">Show message</a>";
 		}
 	}
 }
