@@ -10,7 +10,7 @@ class ReservationMessagesController extends AppController {
     public function isAuthorized($user) {
 		
     	// bands can access add, view and edit methods
-    	if(in_array($this->action, array('add', 'show'))) {
+    	if(in_array($this->action, array('add', 'show', 'edit'))) {
 			return true;
     	}
     	
@@ -102,6 +102,24 @@ class ReservationMessagesController extends AppController {
          throw new NotFoundException(__('Invalid message id'));
       }
       
+      
+      
+     $message = $this->ReservationMessage->find('first', array(
+		'conditions' => array(
+            	'ReservationMessage.id' => $id,
+         ),
+         'contain' => array(
+         	'Reservation' => array(
+         			'ReservedBy',
+         	),
+         )
+      ));
+      
+      if($this->Auth->user('band_id') != $message['Reservation']['ReservedBy']['id']) {
+      		throw new NotFoundException(__('Not allowed'));
+      }
+      
+      debug($this->request->data);
       if(!$this->request->is('get')) {
          if($this->ReservationMessage->save($this->request->data)) {
             $this->Session->setFlash(__('Changes saved'), 'flash_success');
@@ -109,7 +127,7 @@ class ReservationMessagesController extends AppController {
          }
          $this->Session->setFlash(__('Saving message failed'), 'flash_fail');
       }
-      $message = $this->ReservationMessage->findById($id);
+
       $this->request->data = $message;
     }
 }

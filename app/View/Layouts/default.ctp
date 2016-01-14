@@ -97,7 +97,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 				);
 			?>
 			<p>
-				<?php echo $cakeVersion; ?>
+				RRMS version <?php echo Configure::read('rrmsVersion') ?>. Exploiting <?php echo $cakeVersion; ?>
 			</p>
 		</div>
 	</div>
