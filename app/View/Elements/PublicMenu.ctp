@@ -11,5 +11,6 @@
    				'controller' => 'LoginAccount',
    				'action' => 'login' )); 
    ?></li>
+   <li> <?php echo $this->Html->link(_('Short guide'), array('controller' => 'pages', 'action'=>'manual'));?></li>
       <li>&nbsp;</li>
 </ul>
