@@ -101,9 +101,7 @@ class ReservationMessagesController extends AppController {
       if(!$id || !$this->ReservationMessage->exists($id)) {
          throw new NotFoundException(__('Invalid message id'));
       }
-      
-      
-      
+
      $message = $this->ReservationMessage->find('first', array(
 		'conditions' => array(
             	'ReservationMessage.id' => $id,
