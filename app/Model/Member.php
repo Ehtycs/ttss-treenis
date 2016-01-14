@@ -9,13 +9,16 @@ class Member extends AppModel {
    
    public $hasMany = array(
       'BandMembership' => array(
-         'className' => 'BandMembership'
+         'className' => 'BandMembership',
+         'dependent' => true,
       ),
       'MembershipFee' => array(
       	'className' => 'MembershipFee',
+        'dependent' => true,
       ),
    	  'LoginAccount' => array(
    	    'className' => 'LoginAccount',
+      	'dependent' => true,
    	  ),
    );
    

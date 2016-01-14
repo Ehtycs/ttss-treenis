@@ -25,21 +25,26 @@ class Band extends AppModel {
       	// model and BandMemberships controller.
       	'BandMembership' => array(
          	'className' => 'BandMembership',
+   	         'dependent' => true,
       	),
       	'HasConstReservAccount' => array(
          	'className' => 'ConstReservAccount',
+   	        'dependent' => true,
          	'foreignKey' => 'band_id',
          	'associationForeignKey' => false,
       	),
       	'HasReservAccount' => array(
          	'className' => 'ReservAccount',
+	      	'dependent' => true,
       	),
       	'Reservations' => array(
          	'className' => 'Reservations',
          	'foreignKey' => 'band_id',
+	      	'dependent' => true,
       	),
-   			'LoginAccount' => array(
-   				'className' => 'LoginAccount',
+   		'LoginAccount' => array(
+   			'className' => 'LoginAccount',
+      		'dependent' => true,
    		),
    	);
    
