@@ -40,7 +40,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<div id="container">
 		<div id="header">
 			<!-- <h1>TTSS - Tampereen teekkarien soitannollinen seura, rehearsal room reservation system</h1> -->
-			<?php echo $this->Html->image("ttss-logo.png", array("style" => "display: block; margin-bottom: -50px;")); ?>
+			<?php echo $this->Html->image("ttss-logo.png", array(
+				"style" => "display: block; margin-bottom: -50px;",
+				"url" => array('controller' => 'pages'),
+			)); ?>
 			<?php if (AuthComponent::user('id')): ?>
   				 Logged in as <?php 
   				 if(AuthComponent::user('Member')['id']) {
