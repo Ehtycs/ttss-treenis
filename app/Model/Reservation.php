@@ -20,6 +20,7 @@ class Reservation extends AppModel {
    		'ReservationMessage' => array(
          	'className' => 'ReservationMessage',
          	'foreignKey' => 'reservation_id',
+   			'dependent' => true,
       	),
    	);
    	
