@@ -17,6 +17,13 @@ class ReservationMessagesController extends AppController {
     	return parent::isAuthorized($user);
     	
     }
+    
+    // allow public access to get method to show messages to non logged users too
+    public function beforeFilter()
+    {
+        parent::beforeFilter();
+        $this->Auth->allow('get');
+    }
    
     
     public function add($reservationId = null) {
@@ -55,6 +62,38 @@ class ReservationMessagesController extends AppController {
       $msg = $this->ReservationMessage->findById($id)['ReservationMessage'];
       
       $this->set('message', $msg['message']);
+      
+    }
+    
+ // get json form of message
+    public function get($id = null) {
+      if(!$id || !$this->ReservationMessage->exists($id)) {
+         throw new NotFoundException(__('Invalid message id'));
+      }
+      
+      $msg = $this->ReservationMessage->find('first', array(
+		'conditions' => array(
+            	'ReservationMessage.id' => $id,
+         ),
+         'contain' => array(
+         	'Reservation' => array(
+         			'ToSlot',
+         			'ReservedBy',
+         	),
+         )
+      ));
+
+      $this->layout = 'ajax';
+      $this->autoRender = false;
+      
+		//debug($msg);
+      return json_encode(array(
+      	'message' => $msg['ReservationMessage']['message'],
+      	'band' => $msg['Reservation']['ReservedBy']['name'],
+        'date' => $msg['Reservation']['date'],
+        'time' => $msg['Reservation']['ToSlot']['text'],
+      
+      ));
       
     }
     
