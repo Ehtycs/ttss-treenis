@@ -10,5 +10,7 @@ Kikkareen ominaisuuksia muunmuassa:
 * Normaalit vuorot, bändit voivat varata vapaita vuoroja.
 * Vuoroslottien pituutta voi muutella, vuoroja voi lisätä ja poistaa
 * Varaustunnuksen käytön estäminen väliaikaisesti
+
+TODO:
 * Adminkäyttäjä voi varata treeniksen jumaloikeudella esim. siivoustöiden tai muun ajaksi (pois käytöstä tyyppinen).
 
