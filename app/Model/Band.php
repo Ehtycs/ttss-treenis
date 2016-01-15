@@ -116,9 +116,7 @@ class Band extends AppModel {
 		
 		$date = $date ? $date : DateTime("+0 days");
 		$settings = ClassRegistry::init('SystemSetting');
-		debug($date);
 		$year = $settings->getSystemYearOfDay($date);
-   		debug($year);
    		$res = $this->find('first', array(
    			'contain' => array(
    				'HasReservAccount' => array(
@@ -142,7 +140,6 @@ class Band extends AppModel {
  			)
    			
    		));
-		debug($res);
    		if(count($res['HasConstReservAccount']) > 0 ||
    	   		count($res['HasReservAccount']) > 0) {
    			

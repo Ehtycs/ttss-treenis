@@ -113,8 +113,8 @@ class Reservation extends AppModel {
    		}
    		// if day is released according to system settings
    		else {
-   			$Settings = ClassRegistry::init('SystemSettings');
-   			if($settings->isDayReleased($date)) {
+   			$Setting = ClassRegistry::init('SystemSetting');
+   			if($Setting->isDayReleased($date)) {
 				return true;
    			}
    		}
