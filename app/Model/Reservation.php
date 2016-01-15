@@ -58,9 +58,13 @@ class Reservation extends AppModel {
    	
    	public function beforeSave($options = array()) {
    		
+   		$Setting = ClassRegistry::init('SystemSetting');
+
+   		
    		$data = $this->data['Reservation'];
    		$date = new DateTime($data['date']);
    		
+  		$year = $Setting->getSystemYearOfDay($date);
    		$user = $this->getCurrentUser();
 
    		// Reserver id:s dont match
@@ -86,13 +90,18 @@ class Reservation extends AppModel {
    		));
    		
    		// Get slot info, mainly if the slot is an owned timeslot
+   		// be mindful of the correct year
    		$ownedSlot = $this->ToSlot->find('first',
    			array(
    					'conditions' => array(
    						'ToSlot.id' => $data['slot_id'],
    					),
    					'contain' => array(
-   						'OwnedByConstReservAccount'
+   						'OwnedByConstReservAccount' => array(
+   							'conditions' => array(
+   								'OwnedByConstReservAccount.year' => $year,
+   							)
+   						)
    					)
    			)		
    		);
@@ -113,7 +122,7 @@ class Reservation extends AppModel {
    		}
    		// if day is released according to system settings
    		else {
-   			$Setting = ClassRegistry::init('SystemSetting');
+   			//$Setting = ClassRegistry::init('SystemSetting');
    			if($Setting->isDayReleased($date)) {
 				return true;
    			}
