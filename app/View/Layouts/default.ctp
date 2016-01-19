@@ -49,12 +49,12 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			<!-- <h1>TTSS - Tampereen teekkarien soitannollinen seura, rehearsal room reservation system</h1> -->
 
 			<?php echo $this->Html->image("ttss-logo.png", array(
-				"style" => "display: block; margin-bottom: -50px;",
+				"style" => "display: block; margin-bottom: -10px;",
 				"url" => array('controller' => 'pages'),
 			)); ?>
 
 			<?php if (AuthComponent::user('id')): ?>
-  				 Logged in as <?php 
+  				 <span>Logged in as <?php 
   				 if(AuthComponent::user('Member')['id']) {
   				 		echo AuthComponent::user('Member')['first_name'].' '.AuthComponent::user('Member')['last_name'];
   				 }
@@ -62,7 +62,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
   				 		echo AuthComponent::user('Band')['name'];
   				 }
   				 ?> (<?= AuthComponent::user('username')?>) <?= $this->Html->link('Logout', array('controller' => 'LoginAccount', 'action' => 'logout')) ?>
-  				 
+  				 </span>
 			<?php endif; ?>
 		</div>
 		

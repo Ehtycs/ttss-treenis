@@ -82,6 +82,11 @@ p {
 #header{
 	padding: 10px 20px;
 }
+
+#container #header span {
+	margin-left: 10px;
+}
+
 #header h1 {
 	line-height:20px;
 	/*background: #003d4c url('../img/ttss.icon.png') no-repeat left;*/
