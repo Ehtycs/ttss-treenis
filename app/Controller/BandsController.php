@@ -10,8 +10,8 @@ class BandsController extends AppController {
     // Give admins full access
     public function isAuthorized($user) {
 		
-    	// bands can access view and edit methods
-    	if(in_array($this->action, array('view', 'edit'))) {
+    	// bands can access only view 
+    	if(in_array($this->action, array('view'))) {
 			return true;
     	}
     	

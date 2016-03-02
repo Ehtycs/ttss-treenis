@@ -1,8 +1,10 @@
 <div class="separate-block">
 <h2><?php echo h($bandData['Band']['name']); ?></h2>
 
-<?php echo $this->Html->link(__('Edit name'), array('controller' => 'bands',
-                                                       'action' => 'edit', $bandData['Band']['id'])); ?>
+
+<?php // display this for admin only too
+echo AuthComponent::user('admin') ? $this->Html->link(__('Edit name'), array('controller' => 'bands',
+                                                       'action' => 'edit', $bandData['Band']['id'])) : ""; ?>
 &nbsp
 <?php // Display this only for admins
 echo AuthComponent::user('admin') ? $this->Form->postLink(__('Delete band'), 
