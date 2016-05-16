@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 11, 2016 at 09:56 PM
--- Server version: 5.5.44-0+deb8u1
--- PHP Version: 5.6.16-2
+-- Generation Time: May 16, 2016 at 08:00 PM
+-- Server version: 5.6.28-1
+-- PHP Version: 5.6.19-2+b1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,21 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `ttss`
+-- Database: `ttss_tests`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admin_accounts`
---
-
-CREATE TABLE IF NOT EXISTS `admin_accounts` (
-  `id` int(11) NOT NULL,
-  `username` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8_swedish_ci NOT NULL,
-  `name` varchar(50) COLLATE utf8_swedish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+CREATE DATABASE IF NOT EXISTS `ttss_tests` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `ttss_tests`;
 
 -- --------------------------------------------------------
 
@@ -42,7 +31,14 @@ CREATE TABLE IF NOT EXISTS `admin_accounts` (
 CREATE TABLE IF NOT EXISTS `bands` (
   `id` int(11) NOT NULL,
   `name` varchar(60) COLLATE utf8_swedish_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+--
+-- Dumping data for table `bands`
+--
+
+INSERT INTO `bands` (`id`, `name`) VALUES
+(1, 'Testjam');
 
 -- --------------------------------------------------------
 
@@ -54,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `bands_members` (
   `id` int(11) NOT NULL,
   `member_id` int(11) NOT NULL,
   `band_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -84,7 +80,15 @@ CREATE TABLE IF NOT EXISTS `login_accounts` (
   `username` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_swedish_ci NOT NULL,
   `admin` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+--
+-- Dumping data for table `login_accounts`
+--
+
+INSERT INTO `login_accounts` (`id`, `band_id`, `member_id`, `username`, `password`, `admin`) VALUES
+(1, NULL, 1, 'admin', '$2a$10$76G8Fd0ktlQjSEztxxWp0ODxkaGNjK2zXkTQ1tVXbm74QgKmXK0Bq', 1),
+(2, 1, NULL, 'testjam', '$2a$10$a1dqWDO6mjuTe1zHCyxHxOQnrMqw3Oqn/DEj6rTpLyMsXKlPQVG7m', 0);
 
 -- --------------------------------------------------------
 
@@ -98,7 +102,14 @@ CREATE TABLE IF NOT EXISTS `members` (
   `last_name` varchar(30) COLLATE utf8_swedish_ci NOT NULL,
   `email` varchar(50) COLLATE utf8_swedish_ci DEFAULT NULL,
   `access` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+--
+-- Dumping data for table `members`
+--
+
+INSERT INTO `members` (`id`, `first_name`, `last_name`, `email`, `access`) VALUES
+(1, 'Admin', 'Admininen', 'admin@admin.fi', 0);
 
 -- --------------------------------------------------------
 
@@ -164,7 +175,62 @@ CREATE TABLE IF NOT EXISTS `slots` (
   `end` time DEFAULT NULL,
   `day` int(2) DEFAULT NULL,
   `is_const_reserved` int(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+--
+-- Dumping data for table `slots`
+--
+
+INSERT INTO `slots` (`id`, `start`, `end`, `day`, `is_const_reserved`) VALUES
+(1, '00:00:00', '05:59:00', 0, NULL),
+(2, '06:00:00', '08:59:00', 0, NULL),
+(3, '09:00:00', '11:59:00', 0, NULL),
+(4, '12:00:00', '14:59:00', 0, NULL),
+(5, '15:00:00', '17:59:00', 0, NULL),
+(6, '18:00:00', '20:59:00', 0, NULL),
+(7, '21:00:00', '23:59:00', 0, NULL),
+(8, '00:00:00', '05:59:00', 1, NULL),
+(9, '06:00:00', '08:59:00', 1, NULL),
+(10, '09:00:00', '11:59:00', 1, NULL),
+(11, '12:00:00', '14:59:00', 1, NULL),
+(12, '15:00:00', '17:59:00', 1, NULL),
+(13, '18:00:00', '20:59:00', 1, NULL),
+(14, '21:00:00', '23:59:00', 1, NULL),
+(15, '00:00:00', '05:59:00', 2, NULL),
+(16, '06:00:00', '08:59:00', 2, NULL),
+(17, '09:00:00', '11:59:00', 2, NULL),
+(18, '12:00:00', '14:59:00', 2, NULL),
+(19, '15:00:00', '17:59:00', 2, NULL),
+(20, '18:00:00', '20:59:00', 2, NULL),
+(21, '21:00:00', '23:59:00', 2, NULL),
+(22, '00:00:00', '05:59:00', 3, NULL),
+(23, '06:00:00', '08:59:00', 3, NULL),
+(24, '09:00:00', '11:59:00', 3, NULL),
+(25, '12:00:00', '14:59:00', 3, NULL),
+(26, '15:00:00', '17:59:00', 3, NULL),
+(27, '18:00:00', '20:59:00', 3, NULL),
+(28, '21:00:00', '23:59:00', 3, NULL),
+(29, '00:00:00', '05:59:00', 4, NULL),
+(30, '06:00:00', '08:59:00', 4, NULL),
+(31, '09:00:00', '11:59:00', 4, NULL),
+(32, '12:00:00', '14:59:00', 4, NULL),
+(33, '15:00:00', '17:59:00', 4, NULL),
+(34, '18:00:00', '20:59:00', 4, NULL),
+(35, '21:00:00', '23:59:00', 4, NULL),
+(36, '00:00:00', '05:59:00', 5, NULL),
+(37, '06:00:00', '08:59:00', 5, NULL),
+(38, '09:00:00', '11:59:00', 5, NULL),
+(39, '12:00:00', '14:59:00', 5, NULL),
+(40, '15:00:00', '17:59:00', 5, NULL),
+(41, '18:00:00', '20:59:00', 5, NULL),
+(42, '21:00:00', '23:59:00', 5, NULL),
+(43, '00:00:00', '05:59:00', 6, NULL),
+(44, '06:00:00', '08:59:00', 6, NULL),
+(45, '09:00:00', '11:59:00', 6, NULL),
+(46, '12:00:00', '14:59:00', 6, NULL),
+(47, '15:00:00', '17:59:00', 6, NULL),
+(48, '18:00:00', '20:59:00', 6, NULL),
+(49, '21:00:00', '23:59:00', 6, NULL);
 
 -- --------------------------------------------------------
 
@@ -177,34 +243,14 @@ CREATE TABLE IF NOT EXISTS `system_settings` (
   `first_day_of_year` date NOT NULL,
   `release_slots_days` int(11) NOT NULL,
   `release_slots_time` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 --
--- Table structure for table `usergroups`
+-- Dumping data for table `system_settings`
 --
 
-CREATE TABLE IF NOT EXISTS `usergroups` (
-  `id_usergroups` int(11) NOT NULL,
-  `name` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL,
-  `rights` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE IF NOT EXISTS `users` (
-  `user_id` int(11) NOT NULL COMMENT 'auto incrementing user_id of each user, unique index',
-  `user_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL COMMENT 'user''s name, unique',
-  `user_password_hash` varchar(255) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL COMMENT 'user''s password in salted and hashed format',
-  `user_email` varchar(64) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL COMMENT 'user''s email, unique',
-  `user_class` int(4) NOT NULL,
-  `user_real_name` varchar(40) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';
+INSERT INTO `system_settings` (`id`, `first_day_of_year`, `release_slots_days`, `release_slots_time`) VALUES
+(1, '2016-01-17', 2, '16:00:00');
 
 -- --------------------------------------------------------
 
@@ -224,12 +270,6 @@ CREATE TABLE IF NOT EXISTS `votes` (
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `admin_accounts`
---
-ALTER TABLE `admin_accounts`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `bands`
@@ -301,20 +341,6 @@ ALTER TABLE `system_settings`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `usergroups`
---
-ALTER TABLE `usergroups`
-  ADD PRIMARY KEY (`id_usergroups`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `user_name` (`user_name`),
-  ADD UNIQUE KEY `user_email` (`user_email`);
-
---
 -- Indexes for table `votes`
 --
 ALTER TABLE `votes`
@@ -325,20 +351,15 @@ ALTER TABLE `votes`
 --
 
 --
--- AUTO_INCREMENT for table `admin_accounts`
---
-ALTER TABLE `admin_accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `bands`
 --
 ALTER TABLE `bands`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `bands_members`
 --
 ALTER TABLE `bands_members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `const_reserv_accounts`
 --
@@ -348,12 +369,12 @@ ALTER TABLE `const_reserv_accounts`
 -- AUTO_INCREMENT for table `login_accounts`
 --
 ALTER TABLE `login_accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `membership_fees`
 --
@@ -378,17 +399,12 @@ ALTER TABLE `reserv_accounts`
 -- AUTO_INCREMENT for table `slots`
 --
 ALTER TABLE `slots`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=50;
 --
 -- AUTO_INCREMENT for table `system_settings`
 --
 ALTER TABLE `system_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index';
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `votes`
 --

@@ -9,3 +9,5 @@ siihen. ( esim. käyttäjä www-data )
 
 Muokkaa /etc/apache2/sites-available/default riviltä missä määritellään /var/www (document root)
 Allow Override None-> Allow override All
+
+MySql tietokannan rakenne ja defaulttidataa on database_structure.sql tiedostosta. Importti kehiin.

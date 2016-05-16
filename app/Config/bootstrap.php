@@ -115,7 +115,7 @@ CakeLog::config('error', array(
 
 Configure::write('rrmsVersion', '0.2b');
 
-//CakePlugin::load('DebugKit');
+CakePlugin::load('DebugKit');
 
 // CakePlugin::load('Users');
 // Configure::write('User.roles', array(
