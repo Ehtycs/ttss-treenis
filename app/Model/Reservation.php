@@ -56,10 +56,23 @@ class Reservation extends AppModel {
    		return $res;
    	}
    	
+   	protected function _checkReservedState($slotid, $date) {
+   		$result = $this->find('count', array(
+   			'conditions' => array(
+   					'Reservation.slot_id' => $slotid,
+   					'Reservation.date' => $date
+   			)
+   		));
+   		
+   		if($result === 0) {
+   			return true;
+   		}
+   		return false;
+   	}
+   	
    	public function beforeSave($options = array()) {
    		
    		$Setting = ClassRegistry::init('SystemSetting');
-
    		
    		$data = $this->data['Reservation'];
    		$date = new DateTime($data['date']);
@@ -71,11 +84,17 @@ class Reservation extends AppModel {
    		if($user['band_id'] != $data['band_id']) {
    			return false;
    		}
-   		   		
+   		
    		// check that band has a booking account
    		if(!$this->ReservedBy->hasBookingAccount($data['band_id'], $date)) {
-   			return false;			
+   			return false;
    		}
+   		
+   		// check that slot hasn't been reserved yet
+   		if(!$this->_checkReservedState($data['slot_id'], $data['date'])) {
+   			return false;
+   		}
+   		
    		
    		// Get band info 
    		$band = $this->ReservedBy->find(
