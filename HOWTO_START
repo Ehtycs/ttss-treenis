@@ -7,5 +7,9 @@ apachesta mod_rewrite päälle
 Luo kansio app/tmp ja anna www palvelinta pyörittävälle käyttäjälle oikeudet 
 siihen. ( esim. käyttäjä www-data )
 
-Muokkaa /etc/apache2/sites-available/default riviltä missä määritellään /var/www (document root)
+Muokkaa /etc/apache2/apache2.conf riviltä missä määritellään /var/www (docume$
+AllowOverride None-> AllowOverride All
+
+
+Vanha: Muokkaa /etc/apache2/sites-available/default riviltä missä määritellään /var/www (document root)
 Allow Override None-> Allow override All
