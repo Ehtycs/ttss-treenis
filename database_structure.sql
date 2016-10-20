@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 11, 2016 at 09:56 PM
--- Server version: 5.5.44-0+deb8u1
--- PHP Version: 5.6.16-2
+-- Generation Time: Oct 20, 2016 at 05:52 PM
+-- Server version: 5.6.30-1
+-- PHP Version: 5.6.22-2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -31,6 +31,19 @@ CREATE TABLE IF NOT EXISTS `admin_accounts` (
   `username` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_swedish_ci NOT NULL,
   `name` varchar(50) COLLATE utf8_swedish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `announcements`
+--
+
+CREATE TABLE IF NOT EXISTS `announcements` (
+  `id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `headline` tinytext COLLATE utf8_swedish_ci NOT NULL,
+  `text` text COLLATE utf8_swedish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 -- --------------------------------------------------------
@@ -123,7 +136,8 @@ CREATE TABLE IF NOT EXISTS `reservations` (
   `id` int(11) NOT NULL,
   `band_id` int(11) DEFAULT NULL,
   `slot_id` int(11) DEFAULT NULL,
-  `date` date NOT NULL
+  `date` date NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 -- --------------------------------------------------------
@@ -232,6 +246,12 @@ ALTER TABLE `admin_accounts`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `announcements`
+--
+ALTER TABLE `announcements`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `bands`
 --
 ALTER TABLE `bands`
@@ -262,7 +282,8 @@ ALTER TABLE `login_accounts`
 -- Indexes for table `members`
 --
 ALTER TABLE `members`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `membership_fees`
@@ -328,6 +349,11 @@ ALTER TABLE `votes`
 -- AUTO_INCREMENT for table `admin_accounts`
 --
 ALTER TABLE `admin_accounts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `announcements`
+--
+ALTER TABLE `announcements`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `bands`
