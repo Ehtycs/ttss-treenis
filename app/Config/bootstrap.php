@@ -113,7 +113,7 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
-Configure::write('rrmsVersion', '0.2b');
+Configure::write('rrmsVersion', '0.21b');
 
 //CakePlugin::load('DebugKit');
 
