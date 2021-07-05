@@ -78,7 +78,7 @@ class Calendar extends AppModel {
 		foreach($this->calendar as $weekno => $w) {
 			if(!isset($week[$weekno])) {
 				// create 24 hours
-				$week[$weekno] = array_fill(0, 24, array());
+				$week[$weekno] = array_fill(8, 14, array());
 			}
 			
 			foreach($w as $date => $day) {
@@ -116,7 +116,7 @@ class Calendar extends AppModel {
 		$date1 =  $date1 ? $date1 : new DateTime('+0 days');
 		// Push one day more to make sure that moving to 
 		// last sunday works
-		$date2 =  $date2 ? $date2 : new DateTime('+15 days');
+		$date2 =  $date2 ? $date2 : new DateTime('+22 days');
 		// fiddle around and make the last date always sunday
 		$date2->modify('last Sunday');
 		
